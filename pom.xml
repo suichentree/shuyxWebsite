@@ -13,7 +13,7 @@
 
     <!--子模块-->
     <modules>
-        <module>shuyx-user</module>
+        <module>shuyxWebsite-user</module>
     </modules>
 
     <!--父工程统一对依赖进行管理，子工程的依赖都用父工程的-->
