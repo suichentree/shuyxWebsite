@@ -80,7 +80,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <!--使用spring-boot-maven-plugin打包项目，会将项目打包成可执行jar包。-->
     <build>
         <plugins>
