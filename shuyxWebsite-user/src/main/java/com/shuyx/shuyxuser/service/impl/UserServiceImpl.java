@@ -19,51 +19,31 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     private UserMapper userMapper;
 
 
-    public Object addUser(UserEntity user) {
+    public Integer addUser(UserEntity user) {
         UserEntity userEntity = new UserEntity();
         userEntity.setUserId(user.getUserId());
         userEntity.setUserName(user.getUserName());
         userEntity.setPassWord(user.getPassWord());
         userEntity.setCreateTime(new Date());
         userEntity.setUpdateTime(new Date());
-        int insert = userMapper.insert(userEntity);
-        if(insert == 0){
-            return ReturnUtil.fail(ResultCodeEnum.HTTP_REQUEST_ERROR);
-        }
-        return ReturnUtil.success();
+        return userMapper.insert(userEntity);
     }
 
-    public Object deleteUser(Integer id) {
-        int i = userMapper.deleteById(id);
-        if(i == 0){
-            return ReturnUtil.fail(ResultCodeEnum.HTTP_REQUEST_ERROR);
-        }
-        return ReturnUtil.success();
+    public Integer deleteUser(Integer id) {
+        return userMapper.deleteById(id);
     }
 
-    public Object updateUser(UserEntity user) {
-        int i = userMapper.updateById(user);
-        if(i == 0){
-            return ReturnUtil.fail(ResultCodeEnum.HTTP_REQUEST_ERROR);
-        }
-        return ReturnUtil.success();
+    public Integer updateUser(UserEntity user) {
+        return userMapper.updateById(user);
     }
 
-    public Object selectUserById(Integer id) {
-        UserEntity userEntity = userMapper.selectById(id);
-        if(userEntity == null){
-            return ReturnUtil.fail(ResultCodeEnum.HTTP_REQUEST_ERROR);
-        }
-        return ReturnUtil.success(userEntity);
+    public UserEntity selectUserById(Integer id) {
+        return userMapper.selectById(id);
     }
 
-    public Object selectUserByName(String userName) {
+    public List<UserEntity> selectUserByName(String userName) {
         QueryWrapper<UserEntity> wrapper = new QueryWrapper<UserEntity>();
         wrapper.eq("user_name",userName);
-        List<UserEntity> userEntities = userMapper.selectList(wrapper);
-        if(userEntities.size() == 0){
-            return ReturnUtil.fail(ResultCodeEnum.HTTP_REQUEST_ERROR);
-        }
-        return ReturnUtil.success(userEntities);
+        return userMapper.selectList(wrapper);
     }
 }

@@ -12,9 +12,9 @@ public interface UserService extends IService<UserEntity> {
      * @param user
      * @return
      */
-    public Object addUser(UserEntity user);
-    public Object deleteUser(Integer id);
-    public Object updateUser(UserEntity user);
-    public Object selectUserById(Integer id);
-    public Object selectUserByName(String userName);
+    public Integer addUser(UserEntity user);
+    public Integer deleteUser(Integer id);
+    public Integer updateUser(UserEntity user);
+    public UserEntity selectUserById(Integer id);
+    public List<UserEntity> selectUserByName(String userName);
 }
