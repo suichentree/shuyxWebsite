@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shuyx.shuyxuser.mapper.MenuMapper">
+
+    <!--查询用户列表，并且关联查询出用户所属的组织机构信息-->
+    <select id="selectUserRouters" >
+        SELECT DISTINCT m.menu_id, m.menu_name, m.parent_id, m.menu_path, m.menu_page, m.menu_type, m.icon
+        from t_menu m
+        left JOIN t_role_menu rm on rm.menu_id = m.menu_id
+        left JOIN t_user_role ur on rm.role_id = ur.role_id
+        <where>
+            <if test=" userId != null ">
+                AND ur.user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+</mapper>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shuyx.shuyxuser.mapper.UserMapper">
+
+    <!--查询用户列表，并且关联查询出用户所属的组织机构信息-->
+    <select id="selectUserOrgList" resultMap="UserDTO" parameterType="com.shuyx.shuyxuser.dto.UserDTO">
+        select u.user_id, u.org_id, u.position_id, u.user_name,u.pass_word, u.email, u.avatar, u.phone,u.birthday,
+        u.gender, u.status, u.create_time, o.org_name, p.position_name
+        from t_user u
+        left join t_org o on u.org_id = o.org_id
+        left join t_position p on u.position_id = p.position_id
+        <where>
+            <if test=" userId != null ">
+                AND u.user_id = #{userId}
+            </if>
+            <if test=" userName != null and userName != '' ">
+                AND u.user_name like concat('%', #{userName}, '%')
+            </if>
+            <if test=" status != null ">
+                AND u.status = #{status}
+            </if>
+            <if test=" orgId != null ">
+                AND u.org_id = #{orgId}
+            </if>
+            <if test="phone != null and phone != ''">
+                AND u.phone like concat('%', #{phone}, '%')
+            </if>
+            <if test="beginTime != null and endTime != null ">
+                AND u.create_time BETWEEN #{beginTime} AND #{endTime}
+            </if>
+        </where>
+    </select>
+
+    <!--UserDTO 结果映射集合-->
+    <resultMap id="UserDTO" type="com.shuyx.shuyxuser.dto.UserDTO">
+        <!--将sql语句查出来的的字段赋值到对应的对象属性上。 -->
+        <id property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="orgId" column="org_id"/>
+        <result property="positionId" column="position_id"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="gender" column="gender"/>
+        <result property="avatar" column="avatar"/>
+        <result property="passWord" column="pass_word"/>
+        <result property="status" column="status"/>
+        <result property="birthday" column="birthday"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <!-- 使用<association>标签将一对一关联查询的数据，赋值到指定的结果集中-->
+        <association property="org" javaType="com.shuyx.shuyxuser.entity.OrgEntity">
+            <id property="orgId" column="org_id"/>
+            <result property="parentId" column="parent_id"/>
+            <result property="orgName" column="org_name"/>
+            <result property="orgPath" column="org_path"/>
+            <result property="status" column="status"/>
+        </association>
+        <association property="position" javaType="com.shuyx.shuyxuser.entity.PositionEntity">
+            <id property="positionId" column="position_id"/>
+            <result property="positionName" column="position_name"/>
+            <result property="status" column="status"/>
+        </association>
+    </resultMap>
+
+
+</mapper>

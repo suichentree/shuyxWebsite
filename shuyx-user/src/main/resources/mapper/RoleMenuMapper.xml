@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shuyx.shuyxuser.mapper.RoleMenuMapper">
+    <select id="selectMenuIdsByRoleId">
+        SELECT rm.menu_id FROM t_role_menu rm
+        <where>
+            <if test="roleId != null">
+                AND rm.role_id = #{roleId}
+            </if>
+        </where>
+    </select>
+
+    <insert id="batchInsertRoleMenu">
+        insert into t_role_menu(role_id, menu_id, status) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.roleId},#{item.menuId},#{item.status})
+        </foreach>
+    </insert>
+
+    <delete id="deleteRoleMenuByRoleId">
+        DELETE FROM t_role_menu rm
+        <where>
+            <if test="roleId != null">
+                AND rm.role_id = #{roleId}
+            </if>
+        </where>
+    </delete>
+
+</mapper>
