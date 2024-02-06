@@ -9,7 +9,6 @@ import java.util.List;
 
 @Repository
 public interface MenuMapper extends BaseMapper<MenuEntity> {
-
-    public List<MenuEntity> selectUserRouters(Integer userId);
+    public List<MenuEntity> userMenuInfo(Integer userId);
 
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "OrgController接口")
 @RestController
-@RequestMapping("/org")
+@RequestMapping("/shuyx-user/org")
 @Slf4j
 public class OrgController {
 
@@ -46,6 +46,11 @@ public class OrgController {
         return orgService.orgTreelist();
     }
 
+    /**
+     * 添加组织机构
+     * @param org
+     * @return
+     */
     @ApiOperation("添加组织机构")
     @PostMapping("/addOrg")
     public Object addOrg(@RequestBody OrgEntity org){
@@ -56,6 +61,11 @@ public class OrgController {
         return orgService.addOrg(org);
     }
 
+    /**
+     * 更新组织机构
+     * @param org
+     * @return
+     */
     @ApiOperation("更新组织机构")
     @PostMapping("/updateOrg")
     public Object updateOrg(@RequestBody OrgEntity org){

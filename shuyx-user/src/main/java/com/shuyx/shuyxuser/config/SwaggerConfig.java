@@ -17,6 +17,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
 
+    //swagger访问地址： http://localhost:38010/swagger-ui.html
+
     //Docket是Swagger规范中的唯一的实体bean，它是生成API文档的核心对象，里面配置一些必要的信息
     @Bean
     public Docket customDocket() {

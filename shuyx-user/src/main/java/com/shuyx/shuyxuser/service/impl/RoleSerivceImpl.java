@@ -3,7 +3,6 @@ package com.shuyx.shuyxuser.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shuyx.shuyxuser.entity.RoleEntity;
-import com.shuyx.shuyxuser.mapper.MenuMapper;
 import com.shuyx.shuyxuser.mapper.RoleMapper;
 import com.shuyx.shuyxuser.service.MenuService;
 import com.shuyx.shuyxuser.service.RoleService;
@@ -25,8 +24,6 @@ public class RoleSerivceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
 
     @Autowired
     private RoleMapper roleMapper;
-    @Autowired
-    private MenuService menuService;
 
     @Override
     public Object rolelist(RoleEntity role) {

@@ -28,6 +28,4 @@ spring:
           uri: lb://shuyx-user
           predicates:
             - Path=/shuyx-user/**
-          filters:
-            - StripPrefix=1
 

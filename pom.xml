@@ -15,6 +15,7 @@
     <modules>
         <module>shuyx-gateway</module>
         <module>shuyx-user</module>
+        <module>shuyx-security</module>
     </modules>
 
     <!--父工程统一对依赖进行管理，子工程的依赖都用父工程的-->
@@ -44,12 +45,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- lombok依赖 -->
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>1.18.12</version>
-            </dependency>
+
             <!-- MybatisPlus依赖 -->
             <dependency>
                 <groupId>com.baomidou</groupId>

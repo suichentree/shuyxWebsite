@@ -1,4 +1,4 @@
-package com.shuyx.shuyxuser.utils;
+package com.shuyx.shuyxgateway.utils;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;

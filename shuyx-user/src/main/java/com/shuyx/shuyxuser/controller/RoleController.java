@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
-@RequestMapping("/role")
+@RequestMapping("/shuyx-user/role")
 public class RoleController {
 
     @Autowired
@@ -45,6 +45,11 @@ public class RoleController {
         return roleService.roleTreelist();
     }
 
+    /**
+     * 添加角色
+     * @param role
+     * @return
+     */
     @ApiOperation("添加角色")
     @PostMapping("/addRole")
     public Object addRole(@RequestBody RoleEntity role){
@@ -55,6 +60,11 @@ public class RoleController {
         return roleService.addRole(role);
     }
 
+    /**
+     * 更新角色
+     * @param role
+     * @return
+     */
     @ApiOperation("更新角色")
     @PostMapping("/updateRole")
     public Object updateRole(@RequestBody RoleEntity role){

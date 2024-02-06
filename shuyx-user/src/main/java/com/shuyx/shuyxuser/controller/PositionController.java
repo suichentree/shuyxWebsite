@@ -16,16 +16,21 @@ import java.util.List;
 
 @Api(tags = "PositionController接口")
 @RestController
-@RequestMapping("position")
+@RequestMapping("/shuyx-user/position")
 @Slf4j
 public class PositionController {
     @Autowired
     private PositionService positionService;
 
-    @ApiOperation("分页查询")
+    /**
+     * 分页查询职位
+     * @param positionDTO
+     * @return
+     */
+    @ApiOperation("分页查询职位")
     @PostMapping("/pagelist")
     public Object pagelist(@RequestBody PositionDTO positionDTO){
-        log.info("查询接口/pagelist,参数 positionDTO {}",positionDTO);
+        log.info("分页查询职位接口/pagelist,参数 positionDTO {}",positionDTO);
         //参数校验
         if(positionDTO == null){
             return ReturnUtil.fail(ResultCodeEnum.PARAM_IS_BLANK);
@@ -33,15 +38,23 @@ public class PositionController {
         return positionService.pagelist(positionDTO);
     }
 
-    @ApiOperation("列表查询")
+    /**
+     * 列表查询职位
+     * @return
+     */
+    @ApiOperation("列表查询职位")
     @GetMapping("/postionlist")
     public Object postionlist(){
-        log.info("列表查询接口/postionlist");
+        log.info("列表查询职位接口/postionlist");
         List<PositionEntity> list = positionService.list();
         return ReturnUtil.success(list);
     }
 
-
+    /**
+     * 添加职位
+     * @param entity
+     * @return
+     */
     @ApiOperation("添加职位")
     @PostMapping("/addPosition")
     public Object addPosition(@RequestBody PositionEntity entity) {

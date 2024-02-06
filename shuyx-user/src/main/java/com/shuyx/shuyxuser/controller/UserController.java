@@ -10,60 +10,43 @@ import com.shuyx.shuyxuser.utils.ReturnUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Api(tags = "UserController接口")
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/shuyx-user/user")
 @Slf4j
 public class UserController {
-
     @Autowired
     private UserService userService;
 
     /**
-     * 用户登录
-     * @param userName
-     * @param passWord
+     * 获取token中的用户信息，
+     * 从数据库查询完整用户信息并返回
+     * @param request
      * @return
      */
-    @PostMapping("/login")
-    public Object login(@RequestParam String userName,@RequestParam String passWord){
-        log.info("用户登录接口/login , 参数 userName {},passsword {},",userName,passWord);
+    @ApiOperation("获取用户信息")
+    @GetMapping("/userInfo")
+    public Object userInfo(HttpServletRequest request){
+        String token = request.getHeader("Authorization");
+        log.info("获取用户信息接口/userInfo,参数 token {}",token);
         //参数校验
-        if (StringUtils.isBlank(userName) || StringUtils.isBlank(passWord)) {
-            return ReturnUtil.fail(ResultCodeEnum.USERNAME_PASSWORD_IS_BLANK);
+        if(token == null){
+            return ReturnUtil.fail(ResultCodeEnum.TOKEN_IS_NULL);
         }
-        return userService.login(userName,passWord);
+        return userService.userInfo(token);
     }
-
-
 
     /**
-     * 用户注册
-     * @param user
+     * 用户分页查询
+     * @param userDTO
      * @return
      */
-    @ApiOperation("用户注册")
-    @PostMapping("/register")
-    public Object register(@RequestBody UserEntity user){
-        log.info("用户注册接口/register,参数 user {}",user);
-        //参数校验
-        if(user == null){
-            return ReturnUtil.fail(ResultCodeEnum.PARAM_IS_BLANK);
-        }
-        return userService.register(user);
-    }
-
     @ApiOperation("用户分页查询")
     @PostMapping("/pagelist")
     public Object pagelist(@RequestBody UserDTO userDTO){
@@ -75,6 +58,11 @@ public class UserController {
         return userService.pagelist(userDTO);
     }
 
+    /**
+     * 添加用户
+     * @param user
+     * @return
+     */
     @ApiOperation("添加用户")
     @PostMapping("/addUser")
     public Object addUser(@RequestBody UserEntity user) {
@@ -86,6 +74,11 @@ public class UserController {
         return userService.addUser(user);
     }
 
+    /**
+     * 根据用户ID查询用户
+     * @param userId
+     * @return
+     */
     @ApiOperation("根据用户ID查询用户")
     @GetMapping("/selectById")
     public Object selectById(@RequestParam Integer userId) {
@@ -129,7 +122,11 @@ public class UserController {
         return userService.deleteUser(userId);
     }
 
-
+    /**
+     * 根据角色ID查询用户
+     * @param dto
+     * @return
+     */
     @ApiOperation("根据角色ID查询用户")
     @PostMapping("/selectUserListByRoleId")
     public Object selectUserListByRoleId(@RequestBody RoleDTO dto) {
@@ -141,7 +138,12 @@ public class UserController {
         return userService.selectUserListByRoleId(dto);
     }
 
-    @ApiOperation("根据角色ID查询没有该角色的用户")
+    /**
+     * 查询没有该角色ID的用户
+     * @param dto
+     * @return
+     */
+    @ApiOperation("查询没有该角色ID的用户")
     @PostMapping("/selectUserListByNoRoleId")
     public Object selectUserListByNoRoleId(@RequestBody UserRoleDTO dto) {
         log.info("根据角色ID查询没有该角色的用户接口/selectUserListByNoRoleId,参数 dto {}",dto);
@@ -152,6 +154,11 @@ public class UserController {
         return userService.selectUserListByNoRoleId(dto);
     }
 
+    /**
+     * 将角色与用户绑定
+     * @param dto
+     * @return
+     */
     @ApiOperation("将角色与用户绑定")
     @PostMapping("/addUserRole")
     public Object addUserRole(@RequestBody List<UserRoleDTO> dto) {

@@ -16,7 +16,7 @@ public class UserEntity {
     @TableId(value = "user_id",type = IdType.AUTO)
     private Integer userId;                 //用户id
     @TableField("org_id")
-    private Integer orgId;                  //部门id
+    private Integer orgId;                  //组织机构id
     @TableField("position_id")
     private Integer positionId;             //职位id
     @TableField("user_name")

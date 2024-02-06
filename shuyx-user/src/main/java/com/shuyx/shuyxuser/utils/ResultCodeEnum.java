@@ -4,6 +4,7 @@ package com.shuyx.shuyxuser.utils;
  * 响应状态码枚举类
  */
 public enum ResultCodeEnum {
+
     /* 成功状态码 */
     HTTP_REQUEST_SUCCESS(200, "请求成功"),
     /* 失败状态码 */
@@ -42,6 +43,7 @@ public enum ResultCodeEnum {
     MENUNAME_IS_INVALID(20031,"该菜单名称无效"),
     PARENT_MENU_IS_INVALID(20032,"无效的上级菜单"),
     CHILD_MENU_IS_EXITS(20033,"存在下级菜单"),
+    MENU_IS_NULL(20034,"没有该菜单"),
 
     //角色相关
     ROLENAME_IS_INVALID(20041,"该角色名称无效"),
@@ -52,8 +54,6 @@ public enum ResultCodeEnum {
     //职位相关
     POSITION_SELECT_IS_NULL(20061,"查询职位信息为空"),
     POSITION_NAME_IS_INVALID(20069,"该职位名称无效");
-
-
 
     private int code;
     private String message;

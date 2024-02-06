@@ -24,6 +24,11 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgEntity> implements
     @Autowired
     private OrgMapper orgMapper;
 
+    /**
+     * 条件查询组织机构
+     * @param org
+     * @return
+     */
     @Override
     public Object orglist(OrgEntity org) {
         QueryWrapper<OrgEntity> queryWrapper = new QueryWrapper<>();
@@ -43,6 +48,10 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgEntity> implements
         return ReturnUtil.success(orgEntities);
     }
 
+    /**
+     * 查询全部组织机构，并返回树形数据
+     * @return
+     */
     @Override
     public Object orgTreelist() {
         //查询全部的组织机构
@@ -69,6 +78,11 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgEntity> implements
         return ReturnUtil.success(treeList);
     }
 
+    /**
+     * 添加组织机构
+     * @param org
+     * @return
+     */
     @Override
     public Object addOrg(OrgEntity org) {
         //先根据名称查询组织机构是否存在
@@ -174,6 +188,11 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, OrgEntity> implements
         return ReturnUtil.success();
     }
 
+    /**
+     * 删除组织机构
+     * @param orgId
+     * @return
+     */
     @Override
     public Object deleteOrg(Integer orgId) {
         //先查询该组织机构是否有下级组织机构
