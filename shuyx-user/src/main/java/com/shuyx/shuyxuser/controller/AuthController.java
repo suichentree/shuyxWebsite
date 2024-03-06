@@ -1,10 +1,10 @@
 package com.shuyx.shuyxuser.controller;
 
+import com.shuyx.shuyxcommons.utils.ResultCodeEnum;
+import com.shuyx.shuyxcommons.utils.ReturnUtil;
 import com.shuyx.shuyxuser.dto.UserDTO;
 import com.shuyx.shuyxuser.entity.UserEntity;
 import com.shuyx.shuyxuser.service.UserService;
-import com.shuyx.shuyxuser.utils.ResultCodeEnum;
-import com.shuyx.shuyxuser.utils.ReturnUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -62,14 +62,10 @@ public class AuthController {
      * 用户注销登录
      */
     @PostMapping("/logout")
-    public Object logout(@RequestBody UserDTO dto, HttpServletRequest request){
-        log.info("用户注销登录接口/logout , 参数 dto {}",dto);
-        System.out.println("request="+request.getHeader("Authorization"));
-        //参数校验
-        if (dto == null) {
-            return ReturnUtil.fail(ResultCodeEnum.PARAM_IS_BLANK);
-        }
-        return userService.logout(dto.getUserId(),dto.getUserName(),null);
+    public Object logout(HttpServletRequest request){
+        log.info("用户注销登录接口/logout");
+        String token = request.getHeader("Authorization");
+        return userService.logout(token);
     }
 
 }

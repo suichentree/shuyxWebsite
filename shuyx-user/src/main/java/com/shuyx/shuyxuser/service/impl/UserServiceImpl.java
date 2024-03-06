@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.shuyx.shuyxcommons.utils.*;
 import com.shuyx.shuyxuser.dto.RoleDTO;
 import com.shuyx.shuyxuser.dto.UserDTO;
 import com.shuyx.shuyxuser.dto.UserRoleDTO;
@@ -12,13 +13,10 @@ import com.shuyx.shuyxuser.entity.UserEntity;
 import com.shuyx.shuyxuser.mapper.RoleMapper;
 import com.shuyx.shuyxuser.mapper.UserMapper;
 import com.shuyx.shuyxuser.mapper.UserRoleMapper;
-import com.shuyx.shuyxuser.service.MenuService;
 import com.shuyx.shuyxuser.service.UserService;
-import com.shuyx.shuyxuser.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -36,8 +34,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     private UserRoleMapper userRoleMapper;
     @Autowired
     private RoleMapper roleMapper;
-    @Autowired
-    private MenuService menuService;
 
     @Autowired
     private RedisUtil redisUtil;
@@ -105,20 +101,32 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         map.put("userId",userEntity.getUserId().toString());
         map.put("userName",userEntity.getUserName());
         String token = JWTUtil.createToken(map);
+        map.put("token",token);
 
         //将用户登录信息缓存到redis中,3小时过期
-        redisUtil.hPutMap(RedisKeyConstant.USER_LOGIN_INFO+userEntity.getUserId(),map);
-        redisUtil.expire(RedisKeyConstant.USER_LOGIN_INFO+userEntity.getUserId(),3, TimeUnit.HOURS);
+        redisUtil.hPutMap(RedisKeyConstant.USER_LOGIN_INFO+userEntity.getUserId(),map,3, TimeUnit.HOURS);
 
-        //登录成功,获取该用户的可访问菜单路由信息并存储
-//        Object userMenuInfo = menuService.selectUserMenuTreeInfo(userEntity.getUserId());
+        //返回token信息
         return ReturnUtil.success(token);
     }
 
+    /**
+     * 用户注销登录
+     * 删除redis中的该用户的登录信息缓存
+     * @param token
+     * @return
+     */
     @Override
-    public Object logout(Integer userId, String username, String token) {
-        Boolean aBoolean = JWTUtil.checkToken(token);
-        return null;
+    public Object logout(String token) {
+        //取出token中的信息
+        Map<String, Object> tokenInfo = JWTUtil.parseToken(token);
+        Integer userId = Integer.parseInt(tokenInfo.get("userId").toString());
+        //查询该用户是否是登录状态
+        Boolean isLogin = redisUtil.hasKey(RedisKeyConstant.USER_LOGIN_INFO + userId);
+        if(isLogin){
+            redisUtil.delete(RedisKeyConstant.USER_LOGIN_INFO + userId);
+        }
+        return ReturnUtil.success();
     }
 
     @Override

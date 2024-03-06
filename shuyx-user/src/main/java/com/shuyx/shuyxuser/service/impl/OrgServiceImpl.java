@@ -2,11 +2,11 @@ package com.shuyx.shuyxuser.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.shuyx.shuyxcommons.utils.ResultCodeEnum;
+import com.shuyx.shuyxcommons.utils.ReturnUtil;
 import com.shuyx.shuyxuser.entity.OrgEntity;
 import com.shuyx.shuyxuser.mapper.OrgMapper;
 import com.shuyx.shuyxuser.service.OrgService;
-import com.shuyx.shuyxuser.utils.ResultCodeEnum;
-import com.shuyx.shuyxuser.utils.ReturnUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

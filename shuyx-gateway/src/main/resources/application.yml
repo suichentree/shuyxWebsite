@@ -28,4 +28,7 @@ spring:
           uri: lb://shuyx-user
           predicates:
             - Path=/shuyx-user/**
-
+        - id: shuyx-media
+          uri: lb://shuyx-media
+          predicates:
+            - Path=/shuyx-media/**

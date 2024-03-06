@@ -1,12 +1,12 @@
 package com.shuyx.shuyxuser.controller;
 
+import com.shuyx.shuyxcommons.utils.ResultCodeEnum;
+import com.shuyx.shuyxcommons.utils.ReturnUtil;
 import com.shuyx.shuyxuser.dto.RoleDTO;
 import com.shuyx.shuyxuser.dto.UserDTO;
 import com.shuyx.shuyxuser.dto.UserRoleDTO;
 import com.shuyx.shuyxuser.entity.UserEntity;
 import com.shuyx.shuyxuser.service.UserService;
-import com.shuyx.shuyxuser.utils.ResultCodeEnum;
-import com.shuyx.shuyxuser.utils.ReturnUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;

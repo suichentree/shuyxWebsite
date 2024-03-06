@@ -6,7 +6,7 @@
 
     <!--关联菜单表，角色菜单表，用户角色表。查询出用户可访问菜单信息，去除重复菜单-->
     <select id="userMenuInfo" >
-        SELECT DISTINCT m.menu_id, m.menu_name, m.parent_id, m.menu_path, m.menu_page, m.menu_type, m.icon
+        SELECT DISTINCT m.menu_id, m.menu_name, m.parent_id, m.menu_path, m.menu_page, m.menu_type, m.icon, m.visible
         from t_menu m
         left JOIN t_role_menu rm on rm.menu_id = m.menu_id
         left JOIN t_user_role ur on rm.role_id = ur.role_id

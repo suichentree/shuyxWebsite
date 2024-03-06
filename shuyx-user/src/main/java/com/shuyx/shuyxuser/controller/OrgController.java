@@ -1,9 +1,9 @@
 package com.shuyx.shuyxuser.controller;
 
+import com.shuyx.shuyxcommons.utils.ResultCodeEnum;
+import com.shuyx.shuyxcommons.utils.ReturnUtil;
 import com.shuyx.shuyxuser.entity.OrgEntity;
 import com.shuyx.shuyxuser.service.OrgService;
-import com.shuyx.shuyxuser.utils.ResultCodeEnum;
-import com.shuyx.shuyxuser.utils.ReturnUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;

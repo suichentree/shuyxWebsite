@@ -25,7 +25,11 @@ public class MenuEntity {
     private String menuPage;                //菜单页面
     @TableField("menu_type")
     private Integer menuType;                //菜单类型
+    @TableField("visible")
+    private Integer visible;                   //菜单是否侧边栏可见（0可见1不可见）
+    @TableField("status")
     private Integer status;                 //菜单状态（0正常1禁用）
+    @TableField("icon")
     private String icon;                    //菜单图标
     @TableField("create_time")
     private Date createTime;                //创建时间

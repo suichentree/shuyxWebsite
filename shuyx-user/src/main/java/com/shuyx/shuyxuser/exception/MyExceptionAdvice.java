@@ -1,6 +1,6 @@
 package com.shuyx.shuyxuser.exception;
 
-import com.shuyx.shuyxuser.utils.ReturnUtil;
+import com.shuyx.shuyxcommons.utils.ReturnUtil;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

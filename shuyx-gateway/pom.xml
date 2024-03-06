@@ -17,12 +17,6 @@
 
     <!--子工程使用的依赖，版本继承自父工程-->
     <dependencies>
-        <!--test 依赖-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
         <!--gateway 依赖-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -33,15 +27,12 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
-        <!--jwt依赖-->
+        <!--导入 shuyx-commons公共模块依赖-->
         <dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>java-jwt</artifactId>
-        </dependency>
-        <!--lombok依赖-->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>com.shuyx</groupId>
+            <artifactId>shuyx-commons</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

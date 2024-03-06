@@ -12,7 +12,7 @@ import java.util.List;
 public interface UserService extends IService<UserEntity> {
     public Object login(String username,String password);
 
-    public Object logout(Integer userId,String username,String token);
+    public Object logout(String token);
 
     public Object register(UserEntity userEntity);
 
