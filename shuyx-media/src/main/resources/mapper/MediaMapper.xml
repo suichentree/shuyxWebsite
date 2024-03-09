@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shuyx.shuyxmedia.mapper.MediaMapper">
+
+    <select id="pageFindMediaAndGenre" resultType="com.shuyx.shuyxmedia.dto.MediaDTO">
+        SELECT m.* FROM t_media m
+        LEFT JOIN t_media_genre mg on m.media_id = mg.media_id
+        LEFT JOIN t_genre g on mg.genre_id = g.genre_id
+        <where>
+            <if test="genreIds != null and genreIds.length>0">
+                AND g.genre_id in
+                <foreach item="item" index="index" collection="genreIds" open="("  close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            GROUP BY m.media_id HAVING COUNT(*) = #{num}
+        </where>
+    </select>
+
+    <select id="findMediaAndGenre" resultMap="MapA" parameterType="com.shuyx.shuyxmedia.dto.MediaDTO">
+        SELECT m.* , g.genre_id ,g.genre_name ,g.type FROM t_media m
+            LEFT JOIN t_media_genre mg on m.media_id = mg.media_id
+            LEFT JOIN t_genre g on mg.genre_id = g.genre_id
+        <where>
+            <if test="mediaId != null ">
+                AND m.media_id = #{mediaId}
+            </if>
+            <if test="mediaName != null and mediaName != '' ">
+                AND m.media_name like concat('%', #{mediaName}, '%')
+            </if>
+        </where>
+    </select>
+
+    <!--结果映射集合-->
+    <resultMap id="MapA" type="com.shuyx.shuyxmedia.dto.MediaDTO">
+        <!--将sql语句查出来的的字段赋值到对应的对象属性上。 -->
+        <id property="mediaId" column="media_id"/>
+        <result property="mediaName" column="media_name"/>
+        <result property="mediaType" column="media_type"/>
+        <result property="mediaTag" column="media_tag"/>
+        <result property="director" column="director"/>
+        <result property="actor" column="actor"/>
+        <result property="description" column="description"/>
+        <result property="releaseDate" column="release_date"/>
+        <result property="region" column="region"/>
+        <result property="mediaScore" column="media_score"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <!-- 使用<collection>标签将多对多关联查询的数据，赋值到指定的结果集中-->
+        <!--一个媒体拥有多个类型-->
+        <collection property="genreDTOList" ofType="com.shuyx.shuyxmedia.entity.GenreEntity">
+            <id property="genreId" column="genre_id"/>
+            <result property="genreName" column="genre_name" />
+            <result property="type" column="type"/>
+        </collection>
+    </resultMap>
+
+</mapper>
