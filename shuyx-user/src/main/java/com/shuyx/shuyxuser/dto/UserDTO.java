@@ -13,6 +13,7 @@ public class UserDTO extends UserEntity {
     private OrgEntity org;
     //用户所属职位信息
     private PositionEntity position;
+    private String verifyCode;
     //当前页数
     private Integer pageNum;
     //每页的记录数

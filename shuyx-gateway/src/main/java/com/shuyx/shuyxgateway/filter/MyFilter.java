@@ -21,7 +21,7 @@ import java.util.Objects;
 @Component
 public class MyFilter implements GlobalFilter {
     //白名单的请求路径: 登录和注册路径
-    private final String[] whiteRequestURL =  {"/shuyx-user/auth/login","/shuyx-user/auth/register"};
+    private final String[] whiteRequestURL =  {"/shuyx-user/auth/login","/shuyx-user/auth/register","/shuyx-user/auth/verifycode"};
 
     /**
      * 除了白名单的请求，其他请求都会被校验token。

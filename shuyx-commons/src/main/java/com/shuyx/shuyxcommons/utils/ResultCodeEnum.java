@@ -16,6 +16,10 @@ public enum ResultCodeEnum {
     BUSINESS_UPDATE_FAILED(10003,"更新失败，请管理员查询日志信息"),
     BUSINESS_INSERT_FAILED(10004,"新增失败，请管理员查询日志信息"),
 
+    VERIFYCODE_CREATE_FAILED(10005,"创建验证码失败，请管理员查询日志信息"),
+    VERIFYCODE_TIMEOUT(10006,"验证码过期，请重新获取验证码"),
+    VERIFYCODE_ERROR(10007,"验证码错误，请重新获取验证码"),
+
     /* 参数错误 */
     PARAM_IS_INVALID(10010, "参数无效"),
     PARAM_IS_BLANK(10011, "参数为空"),

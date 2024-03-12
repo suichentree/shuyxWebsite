@@ -96,6 +96,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
             log.info("登录密码错误");
             return ReturnUtil.fail(ResultCodeEnum.USER_PASSWORD_IS_ERROR);
         }
+
         //密码正确，登录成功，生成token
         Map map = new HashMap<String, String>();
         map.put("userId",userEntity.getUserId().toString());
