@@ -58,6 +58,9 @@ public enum ResultCodeEnum {
     POSITION_SELECT_IS_NULL(20061,"查询职位信息为空"),
     POSITION_NAME_IS_INVALID(20069,"该职位名称无效");
 
+    //对象存储相关
+
+
     private int code;
     private String message;
 

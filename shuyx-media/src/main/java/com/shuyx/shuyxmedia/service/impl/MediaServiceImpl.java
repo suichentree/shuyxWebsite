@@ -1,19 +1,15 @@
 package com.shuyx.shuyxmedia.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shuyx.shuyxcommons.utils.ResultCodeEnum;
 import com.shuyx.shuyxcommons.utils.ReturnUtil;
-import com.shuyx.shuyxmedia.dto.GenreDTO;
 import com.shuyx.shuyxmedia.dto.MediaDTO;
 import com.shuyx.shuyxmedia.dto.MediaGenreDTO;
 import com.shuyx.shuyxmedia.entity.GenreEntity;
 import com.shuyx.shuyxmedia.entity.MediaEntity;
-import com.shuyx.shuyxmedia.mapper.GenreMapper;
 import com.shuyx.shuyxmedia.mapper.MediaGenreMapper;
 import com.shuyx.shuyxmedia.mapper.MediaMapper;
 import com.shuyx.shuyxmedia.service.MediaService;
@@ -32,8 +28,6 @@ public class MediaServiceImpl extends ServiceImpl<MediaMapper, MediaEntity> impl
 
     @Autowired
     private MediaMapper mediaMapper;
-    @Autowired
-    private GenreMapper genreMapper;
     @Autowired
     private MediaGenreMapper mediaGenreMapper;
 

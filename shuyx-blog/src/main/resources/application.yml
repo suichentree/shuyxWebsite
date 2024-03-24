@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: shuyx-blog
+server:
+  port: 38050
