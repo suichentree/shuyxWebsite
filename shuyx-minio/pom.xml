@@ -11,6 +11,8 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>shuyx-minio</name>
     <description>shuyx-minio</description>
+    <!--子工程的打包方式-->
+    <packaging>jar</packaging>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

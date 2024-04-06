@@ -11,5 +11,5 @@ public interface OSSService {
 
    public Object uploadFile(MultipartFile file, String bucketName);
 
-   public void completeMultipartUpload(String bucketName,String fileName,String uploadId) throws ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, IOException, InvalidKeyException, XmlParserException, InvalidResponseException, InternalException;
+   public Object completeMultipartUpload(String bucketName,String fileName,String uploadId) throws ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, IOException, InvalidKeyException, XmlParserException, InvalidResponseException, InternalException;
 }

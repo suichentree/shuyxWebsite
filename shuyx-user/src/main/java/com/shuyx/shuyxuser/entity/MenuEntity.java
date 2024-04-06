@@ -1,9 +1,6 @@
 package com.shuyx.shuyxuser.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -21,12 +18,14 @@ public class MenuEntity {
     private Integer parentId;               //上级菜单id
     @TableField("menu_path")
     private String menuPath;                //菜单路径
-    @TableField("menu_page")
+    @TableField(value = "menu_page",updateStrategy = FieldStrategy.IGNORED)
     private String menuPage;                //菜单页面
     @TableField("menu_type")
     private Integer menuType;                //菜单类型
     @TableField("visible")
     private Integer visible;                   //菜单是否侧边栏可见（0可见1不可见）
+    @TableField("is_link")
+    private Integer isLink;                 //菜单是否是外链（0是1不是）
     @TableField("status")
     private Integer status;                 //菜单状态（0正常1禁用）
     @TableField("icon")

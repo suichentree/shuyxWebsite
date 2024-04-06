@@ -1,6 +1,8 @@
 package com.shuyx.shuyxminio.utils;
 
 import com.google.common.collect.Multimap;
+import com.shuyx.shuyxcommons.utils.ResultCodeEnum;
+import com.shuyx.shuyxcommons.utils.ReturnUtil;
 import io.minio.*;
 import io.minio.errors.*;
 import io.minio.http.Method;
@@ -221,12 +223,19 @@ public class MinioUtils {
      * @param objectName 文件名称
      */
     @SneakyThrows(Exception.class)
-    public void removeFile(String bucketName, String objectName) {
-        myMinioClient.removeObject(
-                RemoveObjectArgs.builder()
-                        .bucket(bucketName)
-                        .object(objectName)
-                        .build());
+    public Object removeFile(String bucketName, String objectName) {
+        try{
+            myMinioClient.removeObject(
+                    RemoveObjectArgs.builder()
+                            .bucket(bucketName)
+                            .object(objectName)
+                            .build());
+        }catch(Exception e){
+            log.error("文件删除异常，请查询日志");
+            e.printStackTrace();
+            return ReturnUtil.fail(ResultCodeEnum.BUSINESS_DELETE_FAILED);
+        }
+        return ReturnUtil.success();
     }
 
     /**
@@ -242,7 +251,8 @@ public class MinioUtils {
             try {
                 removeFile(bucketName, s);
             } catch (Exception e) {
-                log.error("[Minio工具类]>>>> 批量删除文件，异常：", e);
+                log.error("[Minio工具类]>>>> 批量删除文件，异常：");
+                e.printStackTrace();
             }
         });
     }

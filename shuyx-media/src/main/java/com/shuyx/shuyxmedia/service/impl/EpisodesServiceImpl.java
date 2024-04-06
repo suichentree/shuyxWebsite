@@ -32,6 +32,16 @@ public class EpisodesServiceImpl extends ServiceImpl<EpisodesMapper,EpisodesEnti
 
     @Override
     public Object add(EpisodesEntity one) {
+        //查询剧集序号是否已存在
+        QueryWrapper<EpisodesEntity> episodesEntityQueryWrapper = new QueryWrapper<>();
+        episodesEntityQueryWrapper.eq("episodes_number",one.getEpisodesNumber());
+        episodesEntityQueryWrapper.eq("media_id",one.getMediaId());
+
+        EpisodesEntity episodesEntity = episodesMapper.selectOne(episodesEntityQueryWrapper);
+        if(episodesEntity != null){
+            log.info("剧集新增失败,该剧集编号已存在，请管理员查询日志信息。");
+            return ReturnUtil.fail(ResultCodeEnum.BUSINESS_INSERT_FAILED);
+        }
         //新增
         int insert = episodesMapper.insert(one);
         if(insert == 0){
@@ -64,6 +74,7 @@ public class EpisodesServiceImpl extends ServiceImpl<EpisodesMapper,EpisodesEnti
         if(dto.getEpisodesNumber() != null){
             queryWrapper.eq("episodes_number",dto.getEpisodesNumber());
         }
+        queryWrapper.orderByAsc("episodes_number");
         List<EpisodesEntity> episodesEntities = episodesMapper.selectList(queryWrapper);
         return ReturnUtil.success(episodesEntities);
     }

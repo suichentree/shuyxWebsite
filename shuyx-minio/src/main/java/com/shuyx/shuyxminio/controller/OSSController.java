@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.security.InvalidKeyException;
@@ -98,8 +99,7 @@ public class OSSController {
      */
     @PostMapping("/mergePartFile")
     public Object mergePartFile(String bucketName,String fileName,String uploadId) throws ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, IOException, InvalidKeyException, XmlParserException, InvalidResponseException, InternalException {
-        ossService.completeMultipartUpload(bucketName,fileName,uploadId);
-        return ReturnUtil.success();
+        return ossService.completeMultipartUpload(bucketName, fileName, uploadId);
     }
 
     /**
@@ -107,10 +107,9 @@ public class OSSController {
      * @param fileName
      */
     @DeleteMapping("/delete")
-    public Object delete(@RequestParam("fileName") String fileName,String bucketName) {
-        log.info("/shuyx-minio/oss/episodes/delete, fileName,{}",fileName);
-        minioUtils.removeFile(bucketName, fileName);
-        return ReturnUtil.success();
+    public Object delete(@RequestParam("fileName") String fileName,@RequestParam("bucketName") String bucketName) {
+        log.info("/shuyx-minio/oss/delete, fileName,{},bucketName,{}",fileName,bucketName);
+        return minioUtils.removeFile(bucketName, fileName);
     }
 
     /**
@@ -121,7 +120,7 @@ public class OSSController {
     @SneakyThrows
     @GetMapping("/info")
     public Object getFileStatusInfo(@RequestParam("fileName") String fileName,String bucketName) {
-        log.info("/shuyx-minio/oss/episodes/info, fileName,{}",fileName);
+        log.info("/shuyx-minio/oss/info, fileName,{},bucketName,{}",fileName,bucketName);
         String fileStatusInfo = minioUtils.getFileInfo(bucketName, fileName);
         return ReturnUtil.success(new JSONObject().put("fileInfo",fileStatusInfo));
     }
@@ -133,9 +132,9 @@ public class OSSController {
      */
     @GetMapping("/url")
     public Object getPresignedObjectUrl(@RequestParam("fileName") String fileName,String bucketName) {
-        log.info("/shuyx-minio/oss/episodes/url, fileName,{}",fileName);
+        log.info("/shuyx-minio/oss/url,fileName,{},bucketName,{}",fileName,bucketName);
         String presignedObjectUrl = minioUtils.getPresignedObjectUrl(bucketName, fileName);
-        return ReturnUtil.success(new JSONObject().put("fileUrl",presignedObjectUrl));
+        return ReturnUtil.success(presignedObjectUrl);
     }
 
     /**
@@ -145,7 +144,7 @@ public class OSSController {
      */
     @GetMapping("/download")
     public Object download(@RequestParam("fileName") String fileName,String bucketName, HttpServletResponse response) {
-        log.info("/shuyx-minio/oss/episodes/download, fileName,{}",fileName);
+        log.info("/shuyx-minio/oss/episodes/download, fileName,{},bucketName,{}",fileName,bucketName);
         try {
             InputStream fileInputStream = minioUtils.getObject(bucketName, fileName);
             response.setHeader("Content-Disposition", "attachment;filename=" + fileName);

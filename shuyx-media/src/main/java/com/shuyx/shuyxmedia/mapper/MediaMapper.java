@@ -13,4 +13,6 @@ import java.util.List;
 public interface MediaMapper extends BaseMapper<MediaEntity> {
     public List<MediaDTO> findMediaAndGenre(MediaDTO one);
     List<MediaEntity> pageFindMediaAndGenre(@Param("genreIds")Integer[] genreIds,@Param("num")Integer num);
+
+    List<MediaDTO> findMediaAndEpisodes(MediaDTO dto);
 }

@@ -19,6 +19,7 @@
         <module>shuyx-commons</module>
         <module>shuyx-minio</module>
         <module>shuyx-blog</module>
+        <module>shuyx-xxljob</module>
     </modules>
 
     <dependencies>

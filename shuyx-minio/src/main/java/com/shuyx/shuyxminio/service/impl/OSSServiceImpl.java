@@ -46,7 +46,8 @@ public class OSSServiceImpl implements OSSService {
             //上传文件
             minioUtils.uploadFile(bucketName, file, newFileName, contentType);
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("fileName",newFileName);
+            //新文件名就是文件链接
+            jsonObject.put("fileUrl",newFileName);
             return ReturnUtil.success(jsonObject);
         } catch (Exception e) {
             log.error("上传文件失败。请查询日志。");
@@ -55,13 +56,25 @@ public class OSSServiceImpl implements OSSService {
         }
     }
 
-    public void completeMultipartUpload(String bucketName,String fileName,String uploadId) throws ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, IOException, InvalidKeyException, XmlParserException, InvalidResponseException, InternalException {
-        //先查询minio中具有相同uploadId的分片文件
-        ListPartsResponse listPartsResponse = minioUtils.listParts(bucketName,null,
-                fileName,null,null, uploadId,null,null);
-        List<Part> parts = listPartsResponse.result().partList();
-        //找到这些分片文件之后，开始合并分片文件
-        minioUtils.completeMultipartUpload(bucketName, null,
-                fileName, uploadId, parts.toArray(new Part[]{}), null, null);
+    public Object completeMultipartUpload(String bucketName,String fileName,String uploadId){
+        try{
+            //先查询minio中具有相同uploadId的分片文件
+            ListPartsResponse listPartsResponse = minioUtils.listParts(bucketName,null,
+                    fileName,null,null, uploadId,null,null);
+            List<Part> parts = listPartsResponse.result().partList();
+            //找到这些分片文件之后，开始合并分片文件
+            minioUtils.completeMultipartUpload(bucketName, null,
+                    fileName, uploadId, parts.toArray(new Part[]{}), null, null);
+
+            //合并成功
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("fileUrl",fileName);
+            return ReturnUtil.success(jsonObject);
+        }catch (Exception e){
+            log.error("合并分片文件失败。请查询日志。bucketName {},fileName {}, uploadId {}",bucketName,fileName,uploadId);
+            e.printStackTrace();
+            //合并失败
+            return ReturnUtil.fail(ResultCodeEnum.MINIO_FILE_MERGE_FAIL);
+        }
     }
 }

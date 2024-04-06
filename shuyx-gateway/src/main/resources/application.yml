@@ -6,13 +6,6 @@ spring:
   application:
     name: shuyx-gateway  # 服务名称
   cloud:
-    ## nacos注册中心配置地址
-    nacos:
-      discovery:
-        enabled: true
-        server-addr: localhost:38848
-        username: nacos
-        password: nacos
     ## gateway配置
     gateway:
       ## 跨域配置

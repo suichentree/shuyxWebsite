@@ -44,14 +44,47 @@
         <result property="releaseDate" column="release_date"/>
         <result property="region" column="region"/>
         <result property="mediaScore" column="media_score"/>
-        <result property="createTime" column="create_time"/>
-        <result property="updateTime" column="update_time"/>
         <!-- 使用<collection>标签将多对多关联查询的数据，赋值到指定的结果集中-->
         <!--一个媒体拥有多个类型-->
         <collection property="genreDTOList" ofType="com.shuyx.shuyxmedia.entity.GenreEntity">
             <id property="genreId" column="genre_id"/>
             <result property="genreName" column="genre_name" />
             <result property="type" column="type"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="findMediaAndEpisodes" resultMap="MapB" parameterType="com.shuyx.shuyxmedia.dto.MediaDTO">
+        SELECT m.* , e.episodes_id ,e.episodes_number ,e.episodes_name ,e.episodes_url  FROM t_media m
+        LEFT JOIN t_episodes e on m.media_id = e.media_id
+        <where>
+            <if test="mediaId != null ">
+                AND m.media_id = #{mediaId}
+            </if>
+            <if test="mediaName != null and mediaName != '' ">
+                AND m.media_name like concat('%', #{mediaName}, '%')
+            </if>
+        </where>
+        order by e.episodes_number
+    </select>
+
+    <resultMap id="MapB" type="com.shuyx.shuyxmedia.dto.MediaDTO">
+        <!--将sql语句查出来的的字段赋值到对应的对象属性上。 -->
+        <id property="mediaId" column="media_id"/>
+        <result property="mediaName" column="media_name"/>
+        <result property="mediaType" column="media_type"/>
+        <result property="mediaTag" column="media_tag"/>
+        <result property="director" column="director"/>
+        <result property="actor" column="actor"/>
+        <result property="description" column="description"/>
+        <result property="releaseDate" column="release_date"/>
+        <result property="region" column="region"/>
+        <result property="mediaScore" column="media_score"/>
+        <collection property="episodesList" ofType="com.shuyx.shuyxmedia.entity.EpisodesEntity">
+            <id property="episodesId" column="episodes_id"/>
+            <result property="episodesNumber" column="episodes_number" />
+            <result property="episodesName" column="episodes_name" />
+            <result property="episodesUrl" column="episodes_url" />
         </collection>
     </resultMap>
 

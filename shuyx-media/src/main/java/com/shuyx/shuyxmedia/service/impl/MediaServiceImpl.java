@@ -143,6 +143,23 @@ public class MediaServiceImpl extends ServiceImpl<MediaMapper, MediaEntity> impl
         return ReturnUtil.success(pageInfo);
     }
 
+    @Override
+    public Object findBy(MediaDTO dto) {
+        //媒体条件查询
+        QueryWrapper<MediaEntity> queryWrapper = new QueryWrapper<>();
+        if(dto.getMediaId() != null){
+            queryWrapper.eq("media_id",dto.getMediaId());
+        }
+        if(StringUtils.isNotBlank(dto.getMediaName())){
+            queryWrapper.like("media_name",dto.getMediaName());
+        }
+        if(StringUtils.isNotBlank(dto.getMediaType())){
+            queryWrapper.eq("media_type",dto.getMediaType());
+        }
+        List<MediaEntity> mediaEntities = mediaMapper.selectList(queryWrapper);
+        return ReturnUtil.success(mediaEntities);
+    }
+
     public Object pageFindMediaAndGenre(MediaDTO dto) {
         //使用PageHelper分页插件来进行分页操作
         PageHelper.startPage(dto.getPageNum(),dto.getPageSize());
@@ -159,18 +176,15 @@ public class MediaServiceImpl extends ServiceImpl<MediaMapper, MediaEntity> impl
     }
 
     @Override
-    public Object findBy(MediaDTO dto) {
-        //媒体条件查询
-        QueryWrapper<MediaEntity> queryWrapper = new QueryWrapper<>();
-        if(dto.getMediaId() != null){
-            queryWrapper.eq("media_id",dto.getMediaId());
-        }
-        if(StringUtils.isNotBlank(dto.getMediaName())){
-            queryWrapper.like("media_name",dto.getMediaName());
-        }
-        if(StringUtils.isNotBlank(dto.getMediaType())){
-            queryWrapper.eq("media_type",dto.getMediaType());
-        }
+    public Object findMediaAndEpisodes(MediaDTO dto) {
+        //联查
+        List<MediaDTO> list = mediaMapper.findMediaAndEpisodes(dto);
+        return ReturnUtil.success(list);
+    }
+
+    @Override
+    public Object findMediaAndGenre(MediaDTO dto) {
+        //联查
         List<MediaDTO> list = mediaMapper.findMediaAndGenre(dto);
         return ReturnUtil.success(list);
     }

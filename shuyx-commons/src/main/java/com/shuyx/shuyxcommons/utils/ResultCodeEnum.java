@@ -56,10 +56,13 @@ public enum ResultCodeEnum {
     USER_ROLE_IS_NULL(20044,"该用户没有角色"),
     //职位相关
     POSITION_SELECT_IS_NULL(20061,"查询职位信息为空"),
-    POSITION_NAME_IS_INVALID(20069,"该职位名称无效");
+    POSITION_NAME_IS_INVALID(20069,"该职位名称无效"),
+    //字典相关
+    DICT_IS_EXIST(20079,"该字典已经存在"),
+
 
     //对象存储相关
-
+    MINIO_FILE_MERGE_FAIL(20099,"MinIo文件合并失败，请查询日志");
 
     private int code;
     private String message;
