@@ -58,7 +58,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         //新增用户
         userEntity.setCreateTime(new Date());
         userEntity.setUpdateTime(new Date());
-        userEntity.setStatus(0);
+        userEntity.setStatus("0");
         int insert = userMapper.insert(userEntity);
         if(insert == 0){
             log.info("用户注册失败,未知错误。");
@@ -86,7 +86,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
             return ReturnUtil.fail(ResultCodeEnum.USERNAME_IS_INVALID);
         }
         //若用户状态非0（0正常1禁用）
-        if(userEntity.getStatus() != 0 ){
+        if(!userEntity.getStatus().equals("0") ){
             log.info("该用户状态不为0");
             return ReturnUtil.fail(ResultCodeEnum.USER_STATUS_IS_INVALID);
         }
@@ -183,7 +183,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         //新增用户
         userEntity.setCreateTime(new Date());
         userEntity.setUpdateTime(new Date());
-        userEntity.setStatus(0);
+        userEntity.setStatus("0");
         int insert = userMapper.insert(userEntity);
         if(insert == 0){
             log.info("用户添加失败,未知错误。");

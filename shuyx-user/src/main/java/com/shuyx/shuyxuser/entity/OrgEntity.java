@@ -20,7 +20,7 @@ public class OrgEntity {
     private String orgName;                //组织机构名称
     @TableField("org_path")
     private String orgPath;                //组织机构路径
-    private Integer status;                 //组织机构状态（0正常1禁用）
+    private String status;                 //组织机构状态（0正常1禁用）
     @TableField("create_time")
     private Date createTime;                //创建时间
     @TableField("update_time")

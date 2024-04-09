@@ -91,14 +91,14 @@ public class MediaController {
      * @return
      */
     @ApiOperation("分页查询2")
-    @PostMapping("/pageFindMediaAndGenre")
-    public Object pageFindMediaAndGenre(@RequestBody MediaDTO dto){
-        log.info("/shuyx-media/media/pageFindMediaAndGenre, 参数 dto,{}",dto);
+    @PostMapping("/pageFindMediaAndTag")
+    public Object pageFindMediaAndTag(@RequestBody MediaDTO dto){
+        log.info("/shuyx-media/media/pageFindMediaAndTag, 参数 dto,{}",dto);
         //参数校验
         if(dto == null){
             return ReturnUtil.fail(ResultCodeEnum.PARAM_IS_BLANK);
         }
-        return mediaService.pageFindMediaAndGenre(dto);
+        return mediaService.pageFindMediaAndTag(dto);
     }
 
     /**
@@ -122,14 +122,14 @@ public class MediaController {
      * @return
      */
     @ApiOperation("联查媒体及其类型")
-    @PostMapping("/findMediaAndGenre")
-    public Object findMediaAndGenre(@RequestBody MediaDTO dto){
-        log.info("/shuyx-media/media/findMediaAndGenre, 参数 dto,{}",dto);
+    @PostMapping("/findMediaAndTag")
+    public Object findMediaAndTag(@RequestBody MediaDTO dto){
+        log.info("/shuyx-media/media/findMediaAndTag, 参数 dto,{}",dto);
         //参数校验
         if(dto == null){
             return ReturnUtil.fail(ResultCodeEnum.PARAM_IS_BLANK);
         }
-        return mediaService.findMediaAndGenre(dto);
+        return mediaService.findMediaAndTag(dto);
     }
 
     /**

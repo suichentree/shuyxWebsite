@@ -59,7 +59,7 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, PositionEnt
         //新增
         entity.setCreateTime(new Date());
         entity.setUpdateTime(new Date());
-        entity.setStatus(0);
+        entity.setStatus("0");
         int insert = positionMapper.insert(entity);
         if(insert == 0){
             log.info("添加失败,未知错误。");

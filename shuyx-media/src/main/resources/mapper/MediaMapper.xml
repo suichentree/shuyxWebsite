@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shuyx.shuyxmedia.mapper.MediaMapper">
 
-    <select id="pageFindMediaAndGenre" resultType="com.shuyx.shuyxmedia.dto.MediaDTO">
+    <select id="pageFindMediaAndTag" resultType="com.shuyx.shuyxmedia.dto.MediaDTO">
         SELECT m.* FROM t_media m
-        LEFT JOIN t_media_genre mg on m.media_id = mg.media_id
-        LEFT JOIN t_genre g on mg.genre_id = g.genre_id
+        LEFT JOIN t_media_tag mg on m.media_id = mg.media_id
+        LEFT JOIN t_tag g on mg.tag_id = g.tag_id
         <where>
-            <if test="genreIds != null and genreIds.length>0">
-                AND g.genre_id in
-                <foreach item="item" index="index" collection="genreIds" open="("  close=")" separator=",">
+            <if test="tagIds != null and tagIds.length>0">
+                AND g.tag_id in
+                <foreach item="item" index="index" collection="tagIds" open="("  close=")" separator=",">
                     #{item}
                 </foreach>
             </if>
@@ -17,10 +17,10 @@
         </where>
     </select>
 
-    <select id="findMediaAndGenre" resultMap="MapA" parameterType="com.shuyx.shuyxmedia.dto.MediaDTO">
-        SELECT m.* , g.genre_id ,g.genre_name ,g.type FROM t_media m
-            LEFT JOIN t_media_genre mg on m.media_id = mg.media_id
-            LEFT JOIN t_genre g on mg.genre_id = g.genre_id
+    <select id="findMediaAndTag" resultMap="MapA" parameterType="com.shuyx.shuyxmedia.dto.MediaDTO">
+        SELECT m.* , g.tag_id ,g.tag_name ,g.tag_type FROM t_media m
+            LEFT JOIN t_media_tag mg on m.media_id = mg.media_id
+            LEFT JOIN t_tag g on mg.tag_id = g.tag_id
         <where>
             <if test="mediaId != null ">
                 AND m.media_id = #{mediaId}
@@ -46,10 +46,10 @@
         <result property="mediaScore" column="media_score"/>
         <!-- 使用<collection>标签将多对多关联查询的数据，赋值到指定的结果集中-->
         <!--一个媒体拥有多个类型-->
-        <collection property="genreDTOList" ofType="com.shuyx.shuyxmedia.entity.GenreEntity">
-            <id property="genreId" column="genre_id"/>
-            <result property="genreName" column="genre_name" />
-            <result property="type" column="type"/>
+        <collection property="tagList" ofType="com.shuyx.shuyxmedia.entity.TagEntity">
+            <id property="tagId" column="tag_id"/>
+            <result property="tagName" column="tag_name" />
+            <result property="tagType" column="tag_type"/>
         </collection>
     </resultMap>
 

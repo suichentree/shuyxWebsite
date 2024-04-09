@@ -1,0 +1,20 @@
+server:
+  ## 服务运行端口
+  port: 38060
+spring:
+  application:
+    name: shuyx-xxljob
+xxl:
+  job:
+    admin:
+      addresses: http://localhost:37100/xxl-job-admin  # 调度中心地址
+    accessToken: default_token
+    executor:
+      address: 172.25.0.1:9999    # address就是ip和port的综合方式。可填可不填
+      appname: shuyx-xxl-job
+      port: 9999                  #指定一个端口，用来与调度中心进行通信
+      ip: 172.25.0.1              #该ip是执行器的ip,该ip用来与调度中心进行通信
+      # 日志保存地址
+      logpath: /data/applogs/xxl-job/jobhandler
+      # 日志保存时间
+      logretentiondays: 30

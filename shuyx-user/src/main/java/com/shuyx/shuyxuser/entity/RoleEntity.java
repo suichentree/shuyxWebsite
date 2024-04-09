@@ -18,7 +18,7 @@ public class RoleEntity {
     private Integer parentId;               //上级角色id
     @TableField("role_name")
     private String roleName;                //角色名称
-    private Integer status;                 //状态（0正常1禁用）
+    private String status;                 //状态（0正常1禁用）
     @TableField("create_time")
     private Date createTime;                //创建时间
     @TableField("update_time")

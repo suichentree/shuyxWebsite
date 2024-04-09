@@ -1,10 +1,10 @@
 package com.shuyx.shuyxmedia.dto;
 
-import com.shuyx.shuyxmedia.entity.GenreEntity;
+import com.shuyx.shuyxmedia.entity.TagEntity;
 import lombok.Data;
 
 @Data
-public class GenreDTO extends GenreEntity {
+public class TagDTO extends TagEntity {
     //当前页数
     private Integer pageNum;
     //每页的记录数

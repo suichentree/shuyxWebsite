@@ -27,7 +27,7 @@ public class MenuEntity {
     @TableField("is_link")
     private Integer isLink;                 //菜单是否是外链（0是1不是）
     @TableField("status")
-    private Integer status;                 //菜单状态（0正常1禁用）
+    private String status;                 //菜单状态（0正常1禁用）
     @TableField("icon")
     private String icon;                    //菜单图标
     @TableField("create_time")

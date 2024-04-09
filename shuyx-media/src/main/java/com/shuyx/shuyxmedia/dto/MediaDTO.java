@@ -1,8 +1,7 @@
 package com.shuyx.shuyxmedia.dto;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.shuyx.shuyxmedia.entity.EpisodesEntity;
-import com.shuyx.shuyxmedia.entity.GenreEntity;
+import com.shuyx.shuyxmedia.entity.TagEntity;
 import com.shuyx.shuyxmedia.entity.MediaEntity;
 import lombok.Data;
 
@@ -14,10 +13,10 @@ public class MediaDTO extends MediaEntity {
     private Integer pageNum;
     //每页的记录数
     private Integer pageSize;
-    //媒体类型数组
-    private Integer[] genreIds;
+    //媒体标签数组
+    private Integer[] tagIds;
     //媒体对应的类型
-    private List<GenreEntity> genreDTOList;
+    private List<TagEntity> tagList;
     //媒体对应的剧集列表
     private List<EpisodesEntity> episodesList;
 

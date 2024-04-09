@@ -7,10 +7,10 @@ import com.github.pagehelper.PageInfo;
 import com.shuyx.shuyxcommons.utils.ResultCodeEnum;
 import com.shuyx.shuyxcommons.utils.ReturnUtil;
 import com.shuyx.shuyxmedia.dto.MediaDTO;
-import com.shuyx.shuyxmedia.dto.MediaGenreDTO;
-import com.shuyx.shuyxmedia.entity.GenreEntity;
+import com.shuyx.shuyxmedia.dto.MediaTagDTO;
+import com.shuyx.shuyxmedia.entity.TagEntity;
 import com.shuyx.shuyxmedia.entity.MediaEntity;
-import com.shuyx.shuyxmedia.mapper.MediaGenreMapper;
+import com.shuyx.shuyxmedia.mapper.MediaTagMapper;
 import com.shuyx.shuyxmedia.mapper.MediaMapper;
 import com.shuyx.shuyxmedia.service.MediaService;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class MediaServiceImpl extends ServiceImpl<MediaMapper, MediaEntity> impl
     @Autowired
     private MediaMapper mediaMapper;
     @Autowired
-    private MediaGenreMapper mediaGenreMapper;
+    private MediaTagMapper mediaTagMapper;
 
     @Override
     public Object addMedia(MediaDTO one) {
@@ -37,12 +37,12 @@ public class MediaServiceImpl extends ServiceImpl<MediaMapper, MediaEntity> impl
         one.setCreateTime(new Date());
         one.setUpdateTime(new Date());
         //修饰数据
-        List<GenreEntity> genreDTOList1 = one.getGenreDTOList();
+        List<TagEntity> genreDTOList1 = one.getTagList();
         StringBuilder sb = new StringBuilder();
         if(genreDTOList1 !=null && genreDTOList1.size() > 0){
-            for (GenreEntity dto:genreDTOList1) {
+            for (TagEntity dto:genreDTOList1) {
                 //拼接媒体标签字段
-                sb = sb.append('/').append(dto.getGenreName());
+                sb = sb.append('/').append(dto.getTagName());
             }
         }
         one.setMediaTag(sb.toString());
@@ -54,15 +54,15 @@ public class MediaServiceImpl extends ServiceImpl<MediaMapper, MediaEntity> impl
         }
 
         //新增媒体类型
-        List<MediaGenreDTO> mediaGenreList = new ArrayList<>();
-        List<GenreEntity> genreDTOList2 = one.getGenreDTOList();
+        List<MediaTagDTO> mediaTagList = new ArrayList<>();
+        List<TagEntity> genreDTOList2 = one.getTagList();
         if(genreDTOList2 !=null && genreDTOList2.size() > 0){
-            for (GenreEntity dto:genreDTOList2) {
-                MediaGenreDTO obj = new MediaGenreDTO(one.getMediaId(),dto.getGenreId());
-                mediaGenreList.add(obj);
+            for (TagEntity dto:genreDTOList2) {
+                MediaTagDTO obj = new MediaTagDTO(one.getMediaId(),dto.getTagId());
+                mediaTagList.add(obj);
             }
             //插入数据
-            Integer integer = mediaGenreMapper.batchInsertMediaGenre(mediaGenreList);
+            Integer integer = mediaTagMapper.batchInsertMediaTag(mediaTagList);
             if(integer == 0){
                 log.info("媒体类型新增失败,未知错误，请管理员查询日志信息。");
                 return ReturnUtil.fail(ResultCodeEnum.BUSINESS_INSERT_FAILED);
@@ -75,12 +75,12 @@ public class MediaServiceImpl extends ServiceImpl<MediaMapper, MediaEntity> impl
     @Override
     public Object updateMedia(MediaDTO one) {
         //更新媒体表,先修饰数据
-        List<GenreEntity> genreDTOList1 = one.getGenreDTOList();
+        List<TagEntity> genreDTOList1 = one.getTagList();
         StringBuilder sb = new StringBuilder();
         if(genreDTOList1 !=null && genreDTOList1.size() > 0){
-            for (GenreEntity dto:genreDTOList1) {
+            for (TagEntity dto:genreDTOList1) {
                 //拼接媒体标签字段
-                sb = sb.append('/').append(dto.getGenreName());
+                sb = sb.append('/').append(dto.getTagName());
             }
         }
         one.setMediaTag(sb.toString());
@@ -92,18 +92,18 @@ public class MediaServiceImpl extends ServiceImpl<MediaMapper, MediaEntity> impl
         }
 
         //更新媒体类型表,先删除后新增
-        List<MediaGenreDTO> mediaGenreList = new ArrayList<>();
-        List<GenreEntity> genreDTOList2 = one.getGenreDTOList();
+        List<MediaTagDTO> mediaTagList = new ArrayList<>();
+        List<TagEntity> genreDTOList2 = one.getTagList();
         if(genreDTOList2 !=null && genreDTOList2.size() > 0){
             //先删除之前的媒体类型
-            Integer integer1 = mediaGenreMapper.deleteMediaGenreByMediaId(one.getMediaId());
+            Integer integer1 = mediaTagMapper.deleteMediaTagByMediaId(one.getMediaId());
             //然后新增现在的类型
-            for (GenreEntity dto:genreDTOList2) {
-                MediaGenreDTO obj = new MediaGenreDTO(one.getMediaId(),dto.getGenreId());
-                mediaGenreList.add(obj);
+            for (TagEntity dto:genreDTOList2) {
+                MediaTagDTO obj = new MediaTagDTO(one.getMediaId(),dto.getTagId());
+                mediaTagList.add(obj);
             }
             //插入数据
-            Integer integer = mediaGenreMapper.batchInsertMediaGenre(mediaGenreList);
+            Integer integer = mediaTagMapper.batchInsertMediaTag(mediaTagList);
             if(integer == 0){
                 log.info("媒体类型新增失败,未知错误，请管理员查询日志信息。");
                 return ReturnUtil.fail(ResultCodeEnum.BUSINESS_INSERT_FAILED);
@@ -160,11 +160,11 @@ public class MediaServiceImpl extends ServiceImpl<MediaMapper, MediaEntity> impl
         return ReturnUtil.success(mediaEntities);
     }
 
-    public Object pageFindMediaAndGenre(MediaDTO dto) {
+    public Object pageFindMediaAndTag(MediaDTO dto) {
         //使用PageHelper分页插件来进行分页操作
         PageHelper.startPage(dto.getPageNum(),dto.getPageSize());
-        if(dto.getGenreIds() != null && dto.getGenreIds().length > 0){
-            List<MediaEntity> list = mediaMapper.pageFindMediaAndGenre(dto.getGenreIds(),dto.getGenreIds().length);
+        if(dto.getTagIds() != null && dto.getTagIds().length > 0){
+            List<MediaEntity> list = mediaMapper.pageFindMediaAndTag(dto.getTagIds(),dto.getTagIds().length);
             PageInfo pageInfo = new PageInfo<>(list);
             return ReturnUtil.success(pageInfo);
         }else{
@@ -183,9 +183,9 @@ public class MediaServiceImpl extends ServiceImpl<MediaMapper, MediaEntity> impl
     }
 
     @Override
-    public Object findMediaAndGenre(MediaDTO dto) {
+    public Object findMediaAndTag(MediaDTO dto) {
         //联查
-        List<MediaDTO> list = mediaMapper.findMediaAndGenre(dto);
+        List<MediaDTO> list = mediaMapper.findMediaAndTag(dto);
         return ReturnUtil.success(list);
     }
 

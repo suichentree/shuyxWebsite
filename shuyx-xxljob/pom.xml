@@ -2,44 +2,37 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <!--更换parent标签,替换为现在的父工程-->
     <parent>
         <artifactId>shuyxWebsite</artifactId>
         <groupId>com.shuyx</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>shuyx-gateway</artifactId>
+    <artifactId>shuyx-xxljob</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>shuyx-gateway</name>
-    <description>shuyx-gateway</description>
+    <name>shuyx-xxljob</name>
+    <description>shuyx-xxljob</description>
     <!--子工程的打包方式-->
     <packaging>jar</packaging>
-
-    <!--子工程使用的依赖，版本继承自父工程-->
     <dependencies>
-        <!--spring test依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--gateway 依赖-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-gateway</artifactId>
-        </dependency>
-        <!--nacos 依赖-->
+        <!--nacos依赖-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
-        <!--导入 shuyx-commons公共模块依赖-->
+        <!--xxl-job依赖-->
         <dependency>
-            <groupId>com.shuyx</groupId>
-            <artifactId>shuyx-commons</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
+            <groupId>com.xuxueli</groupId>
+            <artifactId>xxl-job-core</artifactId>
+            <version>2.4.0</version>
         </dependency>
     </dependencies>
-
 </project>

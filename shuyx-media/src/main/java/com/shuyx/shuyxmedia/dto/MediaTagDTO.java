@@ -3,13 +3,13 @@ package com.shuyx.shuyxmedia.dto;
 import lombok.Data;
 
 @Data
-public class MediaGenreDTO {
+public class MediaTagDTO {
     private Integer id;
     private Integer mediaId;
-    private Integer genreId;
+    private Integer tagId;
 
-    public MediaGenreDTO(Integer mediaId, Integer genreId) {
+    public MediaTagDTO(Integer mediaId, Integer tagId) {
         this.mediaId = mediaId;
-        this.genreId = genreId;
+        this.tagId = tagId;
     }
 }

@@ -23,12 +23,12 @@ public class UserEntity {
     private String userName;                //用户名称
     @TableField("pass_word")
     private String passWord;                //密码
-    private Integer gender;                 //性别 男0女1
+    private String gender;                 //性别 男0女1
     private Date birthday;                  //生日
     private String avatar;                  //头像
     private String email;                   //邮箱
     private String phone;                   //电话
-    private Integer status;                 //用户状态 正常0 禁用1
+    private String status;                 //用户状态 正常0 禁用1
     @TableField("create_time")
     private Date createTime;                //创建时间
     @TableField("update_time")

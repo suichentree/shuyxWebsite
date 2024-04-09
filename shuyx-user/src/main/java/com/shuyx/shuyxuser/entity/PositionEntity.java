@@ -18,7 +18,8 @@ public class PositionEntity {
     private String positionName;                //职位名称
     @TableField("position_code")
     private String positionCode;                //职位编码
-    private Integer status;                 //组织机构状态（0正常1禁用）
+    @TableField("status")
+    private String status;                 //组织机构状态（0正常1禁用）
     @TableField("create_time")
     private Date createTime;                //创建时间
     @TableField("update_time")
