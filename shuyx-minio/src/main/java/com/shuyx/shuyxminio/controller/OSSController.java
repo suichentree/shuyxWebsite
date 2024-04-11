@@ -38,6 +38,8 @@ public class OSSController {
     private String USER_AVATAR_BUCKET = "user-avatar-bucket";
     //媒体剧集文件对象桶
     private String MEDIA_EPISODES_BUCKET = "media-episodes-bucket";
+    //媒体封面图片对象桶
+    private String MEDIA_COVER_BUCKET = "media-cover-bucket";
 
     /**
      * 上传文件接口
@@ -49,6 +51,17 @@ public class OSSController {
         double size = (double) (file.getSize() / 1024 / 1024) + 1;
         log.info(file.getOriginalFilename() +" 文件大小为 "+size+" MB之内。");
         return ossService.uploadFile(file,bucketName);
+    }
+
+    /**
+     * 更新文件，先删除旧文件，再添加新文件
+     * @param file
+     * @param bucketName
+     */
+    @PostMapping("/updateFile")
+    public Object updateFile(@RequestParam("file") MultipartFile file,String bucketName,String oldFileName) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+        log.info("/shuyx-minio/oss/updateFile, file {} ,bucketName {},oldFileName {}",file,bucketName,oldFileName);
+        return ossService.updateFile(file,bucketName,oldFileName);
     }
 
     /**

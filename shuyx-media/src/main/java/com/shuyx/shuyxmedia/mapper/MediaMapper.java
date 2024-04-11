@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface MediaMapper extends BaseMapper<MediaEntity> {
-    public List<MediaDTO> findMediaAndTag(MediaDTO one);
+    List<MediaDTO> findMediaAndTag(MediaDTO one);
     List<MediaEntity> pageFindMediaAndTag(@Param("tagIds")Integer[] tagIds,@Param("num")Integer num);
 
     List<MediaDTO> findMediaAndEpisodes(MediaDTO dto);

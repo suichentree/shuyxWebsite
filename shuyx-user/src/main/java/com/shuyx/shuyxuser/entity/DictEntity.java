@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -16,7 +17,8 @@ import java.util.Date;
  */
 @Data
 @TableName("t_dict")
-public class DictEntity {
+public class DictEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
     @TableId(value = "dict_id",type = IdType.AUTO)
     private Integer dictId;                 //字典id
     @TableField("dict_name")

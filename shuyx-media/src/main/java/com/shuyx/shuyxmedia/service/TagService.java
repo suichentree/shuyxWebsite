@@ -14,4 +14,6 @@ public interface TagService extends IService<TagEntity> {
     Object pagelist(TagDTO dto);
 
     Object findBy(TagDTO dto);
+
+    Object findByMediaId(Integer mediaId);
 }

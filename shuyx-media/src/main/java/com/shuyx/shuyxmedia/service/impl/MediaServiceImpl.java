@@ -1,5 +1,6 @@
 package com.shuyx.shuyxmedia.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
@@ -74,6 +75,20 @@ public class MediaServiceImpl extends ServiceImpl<MediaMapper, MediaEntity> impl
 
     @Override
     public Object updateMedia(MediaDTO one) {
+        MediaEntity mediaEntity = mediaMapper.selectById(one.getMediaId());
+        if(mediaEntity == null){
+            return ReturnUtil.fail(ResultCodeEnum.MEDIA_ID_NOT_INVALID);
+        }
+        //更新媒体封面文件地址
+        int update = mediaMapper.updateById(one);
+        if(update != 1){
+            return ReturnUtil.fail(ResultCodeEnum.BUSINESS_UPDATE_FAILED);
+        }
+        return ReturnUtil.success();
+    }
+
+    @Override
+    public Object updateMedia2(MediaDTO one) {
         //更新媒体表,先修饰数据
         List<TagEntity> genreDTOList1 = one.getTagList();
         StringBuilder sb = new StringBuilder();
@@ -181,6 +196,8 @@ public class MediaServiceImpl extends ServiceImpl<MediaMapper, MediaEntity> impl
         List<MediaDTO> list = mediaMapper.findMediaAndEpisodes(dto);
         return ReturnUtil.success(list);
     }
+
+
 
     @Override
     public Object findMediaAndTag(MediaDTO dto) {

@@ -8,11 +8,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @TableName("t_user")
-public class UserEntity {
+public class UserEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
     @TableId(value = "user_id",type = IdType.AUTO)
     private Integer userId;                 //用户id
     @TableField("org_id")

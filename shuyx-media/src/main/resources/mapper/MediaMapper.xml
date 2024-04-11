@@ -38,6 +38,7 @@
         <result property="mediaName" column="media_name"/>
         <result property="mediaType" column="media_type"/>
         <result property="mediaTag" column="media_tag"/>
+        <result property="mediaCover" column="media_cover"/>
         <result property="director" column="director"/>
         <result property="actor" column="actor"/>
         <result property="description" column="description"/>

@@ -92,4 +92,10 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, TagEntity> implements
         List<TagEntity> list = tagMapper.selectList(queryWrapper);
         return ReturnUtil.success(list);
     }
+
+    @Override
+    public Object findByMediaId(Integer mediaId) {
+        List<TagEntity> tagByMediaId = tagMapper.findTagByMediaId(mediaId);
+        return ReturnUtil.success(tagByMediaId);
+    }
 }

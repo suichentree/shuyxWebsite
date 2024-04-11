@@ -8,15 +8,20 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * @author shuyxLocal
+ * @version 1.0
+ * @description: TODO
+ * @date 2024/4/10 18:11
+ */
 @Data
-@TableName("t_tag")
-public class TagEntity implements Serializable {
+@TableName("t_media_tag")
+public class MediaTagEntity implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    @TableId(value = "tag_id",type = IdType.AUTO)
-    private Integer tagId;                 //标签id
-    @TableField("tag_name")
-    private String tagName;                //标签名称
-    @TableField("tag_type")
-    private String tagType;                //标签类型
+    @TableId(value = "id",type = IdType.AUTO)
+    private Integer id;
+    @TableField("media_id")
+    private Integer mediaId;
+    @TableField("tag_id")
+    private Integer tagId;
 }

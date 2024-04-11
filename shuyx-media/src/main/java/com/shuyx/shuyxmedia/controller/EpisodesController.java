@@ -33,7 +33,7 @@ public class EpisodesController {
      */
     @ApiOperation("新增剧集接口")
     @PostMapping("/add")
-    public Object addGenre(@RequestBody EpisodesEntity one){
+    public Object addEpisodes(@RequestBody EpisodesEntity one){
         log.info("/shuyx-media/episodes/add 参数 one {}",one);
         //参数校验
         if(one == null) {
@@ -49,7 +49,7 @@ public class EpisodesController {
      */
     @ApiOperation("更新剧集接口")
     @PostMapping("/update")
-    public Object updateGenre(@RequestBody EpisodesEntity one){
+    public Object updateEpisodes(@RequestBody EpisodesEntity one){
         log.info("/shuyx-media/episodes/update 参数 one,{}",one);
         //参数校验
         if(one == null){
@@ -65,7 +65,7 @@ public class EpisodesController {
      */
     @ApiOperation("删除剧集接口")
     @DeleteMapping("/delete")
-    public Object deleteGenre(Integer id){
+    public Object deleteEpisodes(Integer id){
         log.info("/shuyx-media/episodes/delete, 参数 episodesId,{}",id);
         //参数校验
         if(id == null){

@@ -6,12 +6,14 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Data
 @TableName("t_org")
-public class OrgEntity {
+public class OrgEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
     @TableId(value = "org_id",type = IdType.AUTO)
     private Integer orgId;                 //组织机构id
     @TableField("parent_id")

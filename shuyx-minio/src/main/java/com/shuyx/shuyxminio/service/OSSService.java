@@ -9,7 +9,9 @@ import java.security.NoSuchAlgorithmException;
 
 public interface OSSService {
 
-   public Object uploadFile(MultipartFile file, String bucketName);
+    Object uploadFile(MultipartFile file, String bucketName);
 
-   public Object completeMultipartUpload(String bucketName,String fileName,String uploadId) throws ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, IOException, InvalidKeyException, XmlParserException, InvalidResponseException, InternalException;
+    Object completeMultipartUpload(String bucketName, String fileName, String uploadId) throws ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, IOException, InvalidKeyException, XmlParserException, InvalidResponseException, InternalException;
+
+    Object updateFile(MultipartFile file, String bucketName, String oldFileName);
 }

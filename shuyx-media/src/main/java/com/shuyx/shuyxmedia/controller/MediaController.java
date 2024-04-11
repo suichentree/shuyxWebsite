@@ -38,7 +38,8 @@ public class MediaController {
 
 
     /**
-     * 更新媒体
+     * 更新媒体1
+     * 方式1
      * @param one
      * @return
      */
@@ -51,6 +52,23 @@ public class MediaController {
             return ReturnUtil.fail(ResultCodeEnum.PARAM_IS_BLANK);
         }
         return mediaService.updateMedia(one);
+    }
+
+    /**
+     * 更新媒体2
+     * 方式2
+     * @param one
+     * @return
+     */
+    @ApiOperation("更新媒体2")
+    @PostMapping("/updateMedia2")
+    public Object updateMediaCover(@RequestBody MediaDTO one){
+        log.info("/shuyx-media/media/updateMedia2 参数 one,{}",one);
+        //参数校验
+        if(one == null){
+            return ReturnUtil.fail(ResultCodeEnum.PARAM_IS_BLANK);
+        }
+        return mediaService.updateMedia2(one);
     }
 
     /**

@@ -17,6 +17,8 @@ import java.io.Serializable;
 @Data
 @TableName("t_episodes")
 public class EpisodesEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @TableId(value = "episodes_id",type = IdType.AUTO)
     private Integer episodesId;
     @TableField("media_id")

@@ -8,12 +8,15 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Data
 @TableName("t_media")
-public class MediaEntity {
+public class MediaEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @TableId(value = "media_id",type = IdType.AUTO)
     private Integer mediaId;                 //媒体id
     @TableField("media_name")
@@ -22,6 +25,8 @@ public class MediaEntity {
     private String mediaType;                //媒体分类
     @TableField("media_tag")
     private String mediaTag;                //媒体标签
+    @TableField("media_cover")
+    private String mediaCover;                //媒体封面图
     @TableField("director")
     private String director;               //导演
     @TableField("actor")

@@ -2,8 +2,11 @@ package com.shuyx.shuyxuser.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class UserRoleDTO {
+public class UserRoleDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Integer userId;
     private String userName;
     private Integer roleId;

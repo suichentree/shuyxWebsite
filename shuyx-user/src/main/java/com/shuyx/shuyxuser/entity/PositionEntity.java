@@ -6,12 +6,14 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Data
 @TableName("t_position")
-public class PositionEntity {
+public class PositionEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
     @TableId(value = "position_id",type = IdType.AUTO)
     private Integer positionId;                 //职位id
     @TableField("position_name")

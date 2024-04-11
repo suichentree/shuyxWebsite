@@ -9,7 +9,8 @@ import java.util.List;
 
 @Data
 @TableName("t_menu")
-public class MenuEntity {
+public class MenuEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
     @TableId(value = "menu_id",type = IdType.AUTO)
     private Integer menuId;                 //菜单id
     @TableField("menu_name")

@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface TagMapper extends BaseMapper<TagEntity> {
-    public List<TagEntity> findGenreByMediaId(Integer mediaId);
+    List<TagEntity> findTagByMediaId(Integer mediaId);
 }

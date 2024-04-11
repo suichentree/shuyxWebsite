@@ -5,10 +5,12 @@ import com.shuyx.shuyxuser.entity.PositionEntity;
 import com.shuyx.shuyxuser.entity.UserEntity;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class UserDTO extends UserEntity {
+public class UserDTO extends UserEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
     //用户所属的组织机构信息
     private OrgEntity org;
     //用户所属职位信息
