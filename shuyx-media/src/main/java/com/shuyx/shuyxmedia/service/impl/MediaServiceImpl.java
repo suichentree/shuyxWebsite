@@ -1,6 +1,5 @@
 package com.shuyx.shuyxmedia.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
@@ -175,14 +174,15 @@ public class MediaServiceImpl extends ServiceImpl<MediaMapper, MediaEntity> impl
         return ReturnUtil.success(mediaEntities);
     }
 
-    public Object pageFindMediaAndTag(MediaDTO dto) {
+    public Object pageFindMediaByTag(MediaDTO dto) {
         //使用PageHelper分页插件来进行分页操作
         PageHelper.startPage(dto.getPageNum(),dto.getPageSize());
         if(dto.getTagIds() != null && dto.getTagIds().length > 0){
-            List<MediaEntity> list = mediaMapper.pageFindMediaAndTag(dto.getTagIds(),dto.getTagIds().length);
+            List<MediaEntity> list = mediaMapper.pageFindMediaByTag(dto.getTagIds(),dto.getTagIds().length);
             PageInfo pageInfo = new PageInfo<>(list);
             return ReturnUtil.success(pageInfo);
         }else{
+            //当没有标签数据时，分页查询全部媒体数据
             PageHelper.startPage(dto.getPageNum(),dto.getPageSize());
             List<MediaEntity> list = mediaMapper.selectList(new QueryWrapper<>());
             PageInfo pageInfo = new PageInfo<>(list);

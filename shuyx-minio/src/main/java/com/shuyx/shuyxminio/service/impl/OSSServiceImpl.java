@@ -67,10 +67,9 @@ public class OSSServiceImpl implements OSSService {
             ListPartsResponse listPartsResponse = minioUtils.listParts(bucketName,null,
                     fileName,null,null, uploadId,null,null);
             List<Part> parts = listPartsResponse.result().partList();
-            //找到这些分片文件之后，开始合并分片文件
+            //找到这些分片文件之后，开始合并分片文件,并重新命名
             minioUtils.completeMultipartUpload(bucketName, null,
                     fileName, uploadId, parts.toArray(new Part[]{}), null, null);
-
             //合并成功
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("fileUrl",fileName);

@@ -104,19 +104,18 @@ public class MediaController {
     }
 
     /**
-     * 分页查询2
-     * 如果没有分页参数，那么就普通查询。有分页参数，按分页查询处理
+     * 根据标签查询符合标签的媒体，分页查询
      * @return
      */
-    @ApiOperation("分页查询2")
-    @PostMapping("/pageFindMediaAndTag")
+    @ApiOperation("根据标签查询符合标签的媒体")
+    @PostMapping("/pageFindMediaByTag")
     public Object pageFindMediaAndTag(@RequestBody MediaDTO dto){
-        log.info("/shuyx-media/media/pageFindMediaAndTag, 参数 dto,{}",dto);
+        log.info("/shuyx-media/media/pageFindMediaByTag, 参数 dto,{}",dto);
         //参数校验
         if(dto == null){
             return ReturnUtil.fail(ResultCodeEnum.PARAM_IS_BLANK);
         }
-        return mediaService.pageFindMediaAndTag(dto);
+        return mediaService.pageFindMediaByTag(dto);
     }
 
     /**

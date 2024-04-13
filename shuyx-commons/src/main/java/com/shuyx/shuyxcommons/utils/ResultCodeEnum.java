@@ -60,9 +60,10 @@ public enum ResultCodeEnum {
     //字典相关
     DICT_IS_EXIST(20079,"该字典已经存在"),
 
-    MEDIA_ID_NOT_INVALID(20079,"该媒体编号无效"),
+    MEDIA_ID_NOT_INVALID(20089,"该媒体编号无效"),
+    EPISODES_NUMBER_IS_EXIST(20099,"该剧集编号已存在"),
     //对象存储相关
-    MINIO_FILE_MERGE_FAIL(20099,"MinIo文件合并失败，请查询日志");
+    MINIO_FILE_MERGE_FAIL(20199,"MinIo文件合并失败，请查询日志");
 
     private int code;
     private String message;

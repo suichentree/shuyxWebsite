@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface MediaMapper extends BaseMapper<MediaEntity> {
     List<MediaDTO> findMediaAndTag(MediaDTO one);
-    List<MediaEntity> pageFindMediaAndTag(@Param("tagIds")Integer[] tagIds,@Param("num")Integer num);
+    List<MediaEntity> pageFindMediaByTag(@Param("tagIds")Integer[] tagIds,@Param("num")Integer num);
 
     List<MediaDTO> findMediaAndEpisodes(MediaDTO dto);
 }

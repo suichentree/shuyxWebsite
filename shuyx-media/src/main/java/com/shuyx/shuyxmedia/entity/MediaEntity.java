@@ -6,11 +6,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 @Data
 @TableName("t_media")
@@ -34,13 +32,16 @@ public class MediaEntity implements Serializable {
     @TableField("description")
     private String description;                //演员
     @TableField("release_date")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date releaseDate;                //发布日期
     @TableField("region")
     private String region;                //制片地区
     @TableField("media_score")
     private Double mediaScore;                //媒体评分
     @TableField("create_time")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createTime;                //创建时间
     @TableField("update_time")
     private Date updateTime;                //更新时间
+
 }

@@ -1,6 +1,7 @@
 package com.shuyx.shuyxmedia.dto;
 
 import com.shuyx.shuyxmedia.entity.EpisodesEntity;
+import com.shuyx.shuyxmedia.entity.MediaEntity;
 import lombok.Data;
 import lombok.ToString;
 
@@ -14,5 +15,5 @@ import lombok.ToString;
 @ToString
 public class EpisodesDTO extends EpisodesEntity {
     private static final long serialVersionUID = 1L;
-
+    private MediaEntity media;
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shuyx.shuyxmedia.mapper.MediaMapper">
 
-    <select id="pageFindMediaAndTag" resultType="com.shuyx.shuyxmedia.dto.MediaDTO">
+    <select id="pageFindMediaByTag" resultType="com.shuyx.shuyxmedia.dto.MediaDTO">
         SELECT m.* FROM t_media m
         LEFT JOIN t_media_tag mg on m.media_id = mg.media_id
         LEFT JOIN t_tag g on mg.tag_id = g.tag_id
@@ -75,6 +75,7 @@
         <result property="mediaName" column="media_name"/>
         <result property="mediaType" column="media_type"/>
         <result property="mediaTag" column="media_tag"/>
+        <result property="mediaCover" column="media_cover"/>
         <result property="director" column="director"/>
         <result property="actor" column="actor"/>
         <result property="description" column="description"/>

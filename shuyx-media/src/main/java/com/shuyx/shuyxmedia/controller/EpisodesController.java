@@ -3,11 +3,14 @@ package com.shuyx.shuyxmedia.controller;
 import com.shuyx.shuyxcommons.utils.ResultCodeEnum;
 import com.shuyx.shuyxcommons.utils.ReturnUtil;
 import com.shuyx.shuyxmedia.dto.EpisodesDTO;
+import com.shuyx.shuyxmedia.dto.MediaDTO;
 import com.shuyx.shuyxmedia.entity.EpisodesEntity;
+import com.shuyx.shuyxmedia.openfeign.MinioFeignService;
 import com.shuyx.shuyxmedia.service.EpisodesService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +28,7 @@ public class EpisodesController {
 
     @Autowired
     private EpisodesService episodesService;
+
 
     /**
      * 新增剧集接口
@@ -60,18 +64,20 @@ public class EpisodesController {
 
     /**
      * 删除剧集接口
-     * @param id
+     * @param
      * @return
      */
     @ApiOperation("删除剧集接口")
     @DeleteMapping("/delete")
-    public Object deleteEpisodes(Integer id){
-        log.info("/shuyx-media/episodes/delete, 参数 episodesId,{}",id);
+    public Object deleteEpisodes(@RequestParam("episodesId") Integer episodesId,@RequestParam("fileName") String fileName,@RequestParam("bucketName") String bucketName){
+        log.info("/shuyx-media/episodes/delete, 参数 episodesId,{}",episodesId);
+        log.info("参数 fileName,{}",fileName);
+        log.info("参数 bucketName,{}",bucketName);
         //参数校验
-        if(id == null){
+        if(episodesId == null){
             return ReturnUtil.fail(ResultCodeEnum.PARAM_IS_BLANK);
         }
-        return episodesService.delete(id);
+        return episodesService.delete(episodesId,fileName,bucketName);
     }
 
     /**
@@ -87,6 +93,17 @@ public class EpisodesController {
             return ReturnUtil.fail(ResultCodeEnum.PARAM_IS_BLANK);
         }
         return episodesService.findBy(dto);
+    }
+
+    @ApiOperation("分页查询剧集")
+    @PostMapping("/pagelist")
+    public Object pagelist(@RequestBody MediaDTO dto){
+        log.info("/shuyx-media/episodes/pagelist, 参数 dto = {}",dto);
+        //参数校验
+        if(dto == null){
+            return ReturnUtil.fail(ResultCodeEnum.PARAM_IS_BLANK);
+        }
+        return episodesService.pagelist(dto);
     }
 
 }

@@ -16,7 +16,7 @@ public interface MediaService extends IService<MediaEntity> {
     Object findBy(MediaDTO dto);
     Object findMediaAndTag(MediaDTO dto);
 
-    Object pageFindMediaAndTag(MediaDTO dto);
+    Object pageFindMediaByTag(MediaDTO dto);
 
     Object findMediaAndEpisodes(MediaDTO dto);
 

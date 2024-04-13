@@ -29,3 +29,7 @@ pagehelper:
   helperDialect: mysql
   supportMethodsArguments: true
   params: count=countSql
+
+# minio中各个对象桶的访问地址
+minio:
+  media-cover-bucket: "http://localhost:39000/media-cover-bucket/"
