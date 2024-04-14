@@ -178,13 +178,17 @@ public class MediaServiceImpl extends ServiceImpl<MediaMapper, MediaEntity> impl
         //使用PageHelper分页插件来进行分页操作
         PageHelper.startPage(dto.getPageNum(),dto.getPageSize());
         if(dto.getTagIds() != null && dto.getTagIds().length > 0){
-            List<MediaEntity> list = mediaMapper.pageFindMediaByTag(dto.getTagIds(),dto.getTagIds().length);
+            List<MediaEntity> list = mediaMapper.pageFindMediaByTag(dto.getMediaType(),dto.getTagIds(),dto.getTagIds().length);
             PageInfo pageInfo = new PageInfo<>(list);
             return ReturnUtil.success(pageInfo);
         }else{
             //当没有标签数据时，分页查询全部媒体数据
             PageHelper.startPage(dto.getPageNum(),dto.getPageSize());
-            List<MediaEntity> list = mediaMapper.selectList(new QueryWrapper<>());
+            QueryWrapper<MediaEntity> queryWrapper = new QueryWrapper<>();
+            if(StringUtils.isNotBlank(dto.getMediaType())){
+                queryWrapper.eq("media_type",dto.getMediaType());
+            }
+            List<MediaEntity> list = mediaMapper.selectList(queryWrapper);
             PageInfo pageInfo = new PageInfo<>(list);
             return ReturnUtil.success(pageInfo);
         }

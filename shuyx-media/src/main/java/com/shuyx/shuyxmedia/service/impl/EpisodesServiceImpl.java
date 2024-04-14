@@ -58,6 +58,15 @@ public class EpisodesServiceImpl extends ServiceImpl<EpisodesMapper,EpisodesEnti
 
     @Override
     public Object update(EpisodesEntity one) {
+        //查询剧集序号是否已存在
+        QueryWrapper<EpisodesEntity> episodesEntityQueryWrapper = new QueryWrapper<>();
+        episodesEntityQueryWrapper.eq("episodes_number",one.getEpisodesNumber());
+        episodesEntityQueryWrapper.eq("media_id",one.getMediaId());
+        EpisodesEntity episodesEntity = episodesMapper.selectOne(episodesEntityQueryWrapper);
+        if(episodesEntity != null){
+            log.info("剧集新增失败,该剧集编号已存在，请管理员查询日志信息。");
+            return ReturnUtil.fail(ResultCodeEnum.EPISODES_NUMBER_IS_EXIST);
+        }
         int update = episodesMapper.updateById(one);
         if(update == 0){
             log.info("剧集更新失败,未知错误，请管理员查询日志信息。");

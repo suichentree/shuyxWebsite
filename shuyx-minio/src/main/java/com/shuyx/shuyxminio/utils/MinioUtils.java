@@ -137,19 +137,6 @@ public class MinioUtils {
         return list;
     }
 
-    /**
-     * 获取文件流
-     * @param bucketName 存储桶
-     * @param objectName 文件名
-     * @return 二进制流
-     */
-    public InputStream getObject(String bucketName, String objectName) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
-        return myMinioClient.getObject(
-                GetObjectArgs.builder()
-                        .bucket(bucketName)
-                        .object(objectName)
-                        .build());
-    }
 
 
     /**
@@ -260,6 +247,20 @@ public class MinioUtils {
 
 
     /******************************  下载文件  ******************************/
+
+    /**
+     * 获取文件流
+     * @param bucketName 存储桶
+     * @param objectName 文件名
+     * @return 二进制流
+     */
+    public InputStream getObject(String bucketName, String objectName) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+        return myMinioClient.getObject(
+                GetObjectArgs.builder()
+                        .bucket(bucketName)
+                        .object(objectName)
+                        .build());
+    }
 
     /**
      * 断点下载

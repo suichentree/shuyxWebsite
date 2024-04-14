@@ -111,10 +111,6 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, DictEntity> impleme
         page.setCurrent(dto.getPageNum());
         page.setSize(dto.getPageSize());
         Page<DictEntity> pages = dictMapper.selectPage(page, queryWrapper);
-        if(pages == null){
-            log.info("查询失败，请查询日志");
-            return ReturnUtil.fail(ResultCodeEnum.BUSINESS_SELECT_FAILED);
-        }
         return ReturnUtil.success(pages);
     }
 }

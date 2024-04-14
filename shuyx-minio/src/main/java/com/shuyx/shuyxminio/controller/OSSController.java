@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URLEncoder;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -43,25 +44,27 @@ public class OSSController {
 
     /**
      * 上传文件接口
+     *
      * @param file
      */
     @PostMapping("/upload")
-    public Object upload(@RequestParam("file") MultipartFile file,String bucketName) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
-        log.info("/shuyx-minio/oss/upload, file,{}",file);
+    public Object upload(@RequestParam("file") MultipartFile file, String bucketName) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+        log.info("/shuyx-minio/oss/upload, file,{}", file);
         double size = (double) (file.getSize() / 1024 / 1024) + 1;
-        log.info(file.getOriginalFilename() +" 文件大小为 "+size+" MB之内。");
-        return ossService.uploadFile(file,bucketName);
+        log.info(file.getOriginalFilename() + " 文件大小为 " + size + " MB之内。");
+        return ossService.uploadFile(file, bucketName);
     }
 
     /**
      * 更新文件，先删除旧文件，再添加新文件
+     *
      * @param file
      * @param bucketName
      */
     @PostMapping("/updateFile")
-    public Object updateFile(@RequestParam("file") MultipartFile file,String bucketName,String oldFileName) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
-        log.info("/shuyx-minio/oss/updateFile, file {} ,bucketName {},oldFileName {}",file,bucketName,oldFileName);
-        return ossService.updateFile(file,bucketName,oldFileName);
+    public Object updateFile(@RequestParam("file") MultipartFile file, String bucketName, String oldFileName) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+        log.info("/shuyx-minio/oss/updateFile, file {} ,bucketName {},oldFileName {}", file, bucketName, oldFileName);
+        return ossService.updateFile(file, bucketName, oldFileName);
     }
 
     /**
@@ -69,14 +72,15 @@ public class OSSController {
      * 逻辑：
      * 1. minio接收到前端发来的创建分片文件请求。会返回对应的uploadId
      * 2. 然后通过uploadId以及分片数量，创建同等数量的预签名链接。并返回
+     *
      * @return
      */
     @PostMapping("/createMultipartUpload")
-    public Object createMultipartUpload(String fileName,String bucketName,Integer chunkNum) throws ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, IOException, InvalidKeyException, XmlParserException, InvalidResponseException, InternalException {
-        log.info("/shuyx-minio/oss/createMultipartUpload, bucketName {} , fileName {},chunkNum {}",bucketName,fileName,chunkNum);
-        log.info("文件名称为"+fileName);
-        log.info("对象桶名称为"+bucketName);
-        log.info("分片数量为"+chunkNum);
+    public Object createMultipartUpload(String fileName, String bucketName, Integer chunkNum) throws ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, IOException, InvalidKeyException, XmlParserException, InvalidResponseException, InternalException {
+        log.info("/shuyx-minio/oss/createMultipartUpload, bucketName {} , fileName {},chunkNum {}", bucketName, fileName, chunkNum);
+        log.info("文件名称为" + fileName);
+        log.info("对象桶名称为" + bucketName);
+        log.info("分片数量为" + chunkNum);
 
         // 1. 向minio创建分片上传请求,会返回一个uploadId
         CreateMultipartUploadResponse response = minioUtils.createMultipartUpload(bucketName, null, fileName, null, null);
@@ -85,7 +89,7 @@ public class OSSController {
 
         // 3. 返回结果信息
         Map<String, Object> result = new HashMap<>();
-        result.put("uploadId",uploadId);
+        result.put("uploadId", uploadId);
 
         ArrayList<String> uploadUrlList = new ArrayList<>();
 
@@ -98,78 +102,91 @@ public class OSSController {
             String uploadUrl = minioUtils.getPresignedObjectUrl(bucketName, fileName, partMap);//获取每个分片文件的预签名链接
             uploadUrlList.add(uploadUrl);   //添加预签名链接
         }
-        result.put("uploadUrlList",uploadUrlList);
+        result.put("uploadUrlList", uploadUrlList);
         //返回
         return ReturnUtil.success(result);
     }
 
     /**
      * 合并分片文件
+     *
      * @param bucketName
      * @param fileName
      * @param uploadId
      * @return
      */
     @PostMapping("/mergePartFile")
-    public Object mergePartFile(String bucketName,String fileName,String uploadId) throws ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, IOException, InvalidKeyException, XmlParserException, InvalidResponseException, InternalException {
+    public Object mergePartFile(String bucketName, String fileName, String uploadId) throws ServerException, InsufficientDataException, ErrorResponseException, NoSuchAlgorithmException, IOException, InvalidKeyException, XmlParserException, InvalidResponseException, InternalException {
         return ossService.completeMultipartUpload(bucketName, fileName, uploadId);
     }
 
     /**
      * 删除文件
+     *
      * @param fileName
      */
     @DeleteMapping("/delete")
-    public Object delete(@RequestParam("fileName") String fileName,@RequestParam("bucketName") String bucketName) {
-        log.info("/shuyx-minio/oss/delete, fileName,{},bucketName,{}",fileName,bucketName);
+    public Object delete(@RequestParam("fileName") String fileName, @RequestParam("bucketName") String bucketName) {
+        log.info("/shuyx-minio/oss/delete, fileName,{},bucketName,{}", fileName, bucketName);
         return minioUtils.removeFile(bucketName, fileName);
     }
 
     /**
      * 获取文件信息
+     *
      * @param fileName
      * @return
      */
     @SneakyThrows
     @GetMapping("/info")
-    public Object getFileStatusInfo(@RequestParam("fileName") String fileName,String bucketName) {
-        log.info("/shuyx-minio/oss/info, fileName,{},bucketName,{}",fileName,bucketName);
+    public Object getFileStatusInfo(@RequestParam("fileName") String fileName, String bucketName) {
+        log.info("/shuyx-minio/oss/info, fileName,{},bucketName,{}", fileName, bucketName);
         String fileStatusInfo = minioUtils.getFileInfo(bucketName, fileName);
-        return ReturnUtil.success(new JSONObject().put("fileInfo",fileStatusInfo));
+        return ReturnUtil.success(new JSONObject().put("fileInfo", fileStatusInfo));
     }
 
     /**
      * 获取文件外链
+     *
      * @param fileName
      * @return
      */
     @GetMapping("/url")
-    public Object getPresignedObjectUrl(@RequestParam("fileName") String fileName,String bucketName) {
-        log.info("/shuyx-minio/oss/url,fileName,{},bucketName,{}",fileName,bucketName);
+    public Object getPresignedObjectUrl(@RequestParam("fileName") String fileName, String bucketName) {
+        log.info("/shuyx-minio/oss/url,fileName,{},bucketName,{}", fileName, bucketName);
         String presignedObjectUrl = minioUtils.getPresignedObjectUrl(bucketName, fileName);
         return ReturnUtil.success(presignedObjectUrl);
     }
 
     /**
      * 文件下载
+     *
      * @param fileName
      * @param response
      */
     @GetMapping("/download")
-    public Object download(@RequestParam("fileName") String fileName,String bucketName, HttpServletResponse response) {
-        log.info("/shuyx-minio/oss/episodes/download, fileName,{},bucketName,{}",fileName,bucketName);
-        try {
-            InputStream fileInputStream = minioUtils.getObject(bucketName, fileName);
-            response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
-            response.setContentType("application/force-download");
-            response.setCharacterEncoding("UTF-8");
-            IOUtils.copy(fileInputStream, response.getOutputStream());
-        } catch (Exception e) {
-            log.error("文件下载失败,请查询日志");
-            e.printStackTrace();
-            return ReturnUtil.fail(ResultCodeEnum.HTTP_REQUEST_ERROR);
-        }
-        return ReturnUtil.success();
-    }
+    public void download(@RequestParam("fileName") String fileName, @RequestParam("bucketName") String bucketName, HttpServletResponse response) throws IOException {
+        log.info("/shuyx-minio/oss/download, fileName,{},bucketName,{}", fileName, bucketName);
 
+        response.setContentType("application/octet-stream");
+        response.setHeader("content-type", "application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(fileName, "utf8"));
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
+        try {
+            inputStream = minioUtils.getObject(bucketName, fileName);
+            outputStream = response.getOutputStream();
+            byte[] buffer = new byte[2048];
+            int len = 0;
+            while ((len = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, len);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("文件下载失败,请查询日志");
+        } finally {
+            inputStream.close();
+            outputStream.close();
+        }
+    }
 }

@@ -7,6 +7,9 @@
         LEFT JOIN t_media_tag mg on m.media_id = mg.media_id
         LEFT JOIN t_tag g on mg.tag_id = g.tag_id
         <where>
+            <if test="mediaType != null and mediaType != '' ">
+                AND m.media_type = #{mediaType}
+            </if>
             <if test="tagIds != null and tagIds.length>0">
                 AND g.tag_id in
                 <foreach item="item" index="index" collection="tagIds" open="("  close=")" separator=",">
