@@ -6,6 +6,7 @@ import com.shuyx.shuyxcommons.utils.ReturnUtil;
 import com.shuyx.shuyxminio.service.OSSService;
 import com.shuyx.shuyxminio.utils.MinioUtils;
 import io.minio.CreateMultipartUploadResponse;
+import io.minio.StatObjectResponse;
 import io.minio.errors.*;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -141,8 +142,8 @@ public class OSSController {
     @GetMapping("/info")
     public Object getFileStatusInfo(@RequestParam("fileName") String fileName, String bucketName) {
         log.info("/shuyx-minio/oss/info, fileName,{},bucketName,{}", fileName, bucketName);
-        String fileStatusInfo = minioUtils.getFileInfo(bucketName, fileName);
-        return ReturnUtil.success(new JSONObject().put("fileInfo", fileStatusInfo));
+        StatObjectResponse fileInfo = minioUtils.getFileInfo(bucketName, fileName);
+        return ReturnUtil.success(fileInfo);
     }
 
     /**
@@ -167,13 +168,16 @@ public class OSSController {
     @GetMapping("/download")
     public void download(@RequestParam("fileName") String fileName, @RequestParam("bucketName") String bucketName, HttpServletResponse response) throws IOException {
         log.info("/shuyx-minio/oss/download, fileName,{},bucketName,{}", fileName, bucketName);
-
-        response.setContentType("application/octet-stream");
-        response.setHeader("content-type", "application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(fileName, "utf8"));
         InputStream inputStream = null;
         OutputStream outputStream = null;
         try {
+            //先查询文件信息
+            StatObjectResponse fileInfo = minioUtils.getFileInfo(bucketName, fileName);
+            //设置响应请求
+            response.setContentType("application/octet-stream");
+            response.setContentLengthLong(fileInfo.size());
+            response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(fileName, "utf8"));
+
             inputStream = minioUtils.getObject(bucketName, fileName);
             outputStream = response.getOutputStream();
             byte[] buffer = new byte[2048];

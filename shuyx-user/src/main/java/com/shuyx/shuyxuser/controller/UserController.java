@@ -10,6 +10,7 @@ import com.shuyx.shuyxuser.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,7 @@ public class UserController {
      * @param request
      * @return
      */
-    @ApiOperation("获取用户信息")
+    @ApiOperation("根据token获取用户信息")
     @GetMapping("/userInfo")
     public Object userInfo(HttpServletRequest request){
         String token = request.getHeader("Authorization");
@@ -81,7 +82,7 @@ public class UserController {
      */
     @ApiOperation("根据用户ID查询用户")
     @GetMapping("/selectById")
-    public Object selectById(@RequestParam Integer userId) {
+    public Object selectById(@RequestParam("userId") Integer userId) {
         log.info("查询用户接口/selectById,参数 userId {}",userId);
         //参数校验
         if(userId == null){
@@ -179,6 +180,19 @@ public class UserController {
             return ReturnUtil.fail(ResultCodeEnum.PARAM_IS_BLANK);
         }
         return userService.deleteUserRole(dto);
+    }
+
+    @ApiOperation("更新用户密码")
+    @PostMapping("/updateUserPassword")
+    public Object updateUserPassword(@RequestParam Integer userId,@RequestParam String oldPassword,@RequestParam String newPassword){
+        log.info("更新用户密码 /updateUserPassword");
+        log.info("userId,{}",userId);
+        log.info("oldPassword,{}",oldPassword);
+        log.info("newPassword,{}",newPassword);
+        if(userId == null && StringUtils.isBlank(oldPassword) && StringUtils.isBlank(newPassword)){
+            return ReturnUtil.fail(ResultCodeEnum.PARAM_IS_BLANK);
+        }
+        return userService.updateUserPassword(userId,oldPassword,newPassword);
     }
 
 }

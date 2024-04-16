@@ -64,6 +64,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+
         <!--导入 shuyx-commons公共模块依赖-->
         <dependency>
             <groupId>com.shuyx</groupId>

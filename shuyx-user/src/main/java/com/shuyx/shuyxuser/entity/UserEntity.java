@@ -26,6 +26,8 @@ public class UserEntity implements Serializable {
     @TableField("pass_word")
     private String passWord;                //密码
     private String gender;                 //性别 男0女1
+    @TableField("birthday")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date birthday;                  //生日
     private String avatar;                  //头像
     private String email;                   //邮箱

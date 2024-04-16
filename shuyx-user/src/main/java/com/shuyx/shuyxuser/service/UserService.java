@@ -28,4 +28,6 @@ public interface UserService extends IService<UserEntity> {
     public Object selectUserListByNoRoleId(UserRoleDTO dto);
     public Object addUserRole(List<UserRoleDTO> dto);
     public Object deleteUserRole(List<UserRoleDTO> dto);
+
+    Object updateUserPassword(Integer userId, String oldPassword, String newPassword);
 }

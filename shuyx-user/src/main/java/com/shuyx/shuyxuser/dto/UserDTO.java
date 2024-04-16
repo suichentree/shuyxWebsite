@@ -1,5 +1,6 @@
 package com.shuyx.shuyxuser.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.shuyx.shuyxuser.entity.OrgEntity;
 import com.shuyx.shuyxuser.entity.PositionEntity;
 import com.shuyx.shuyxuser.entity.UserEntity;

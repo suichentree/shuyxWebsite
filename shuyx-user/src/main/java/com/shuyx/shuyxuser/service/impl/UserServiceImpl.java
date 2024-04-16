@@ -15,6 +15,7 @@ import com.shuyx.shuyxuser.mapper.UserMapper;
 import com.shuyx.shuyxuser.mapper.UserRoleMapper;
 import com.shuyx.shuyxuser.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,6 +60,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         userEntity.setCreateTime(new Date());
         userEntity.setUpdateTime(new Date());
         userEntity.setStatus("0");
+        //密码加密
+        String passWord = userEntity.getPassWord();
+        String newHashPassword = JbcryptUtil.hashPasswrod(passWord);
+        userEntity.setPassWord(newHashPassword);
+
         int insert = userMapper.insert(userEntity);
         if(insert == 0){
             log.info("用户注册失败,未知错误。");
@@ -90,13 +96,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
             log.info("该用户状态不为0");
             return ReturnUtil.fail(ResultCodeEnum.USER_STATUS_IS_INVALID);
         }
-        //密码比对
-        boolean isPassword = StringUtils.equals(passWord, userEntity.getPassWord());
+        //密码检查
+        Boolean isPassword = JbcryptUtil.checkPassword(passWord, userEntity.getPassWord());
         if(!isPassword){
             log.info("登录密码错误");
             return ReturnUtil.fail(ResultCodeEnum.USER_PASSWORD_IS_ERROR);
         }
-
         //密码正确，登录成功，生成token
         Map map = new HashMap<String, String>();
         map.put("userId",userEntity.getUserId().toString());
@@ -212,10 +217,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
      * @return
      */
     public Object updateUser(UserEntity user) {
-        int update = userMapper.updateById(user);
-        if(update == 0){
-            log.info("用户更新失败,未知错误。");
-            return ReturnUtil.fail(ResultCodeEnum.BUSINESS_UPDATE_FAILED);
+        //根据用户名称查询用户信息
+        UserEntity one = userMapper.selectOne(new QueryWrapper<UserEntity>().eq("user_name", user.getUserName()));
+        if(one!=null&&one.getUserId() != user.getUserId()){
+            log.info("用户更新失败,该用户名已经存在。");
+            return ReturnUtil.fail(ResultCodeEnum.USERNAME_IS_INVALID);
+        }else{
+            int update = userMapper.updateById(user);
+            if(update == 0){
+                log.info("用户更新失败,未知错误。");
+                return ReturnUtil.fail(ResultCodeEnum.BUSINESS_UPDATE_FAILED);
+            }
         }
         return ReturnUtil.success();
     }
@@ -229,12 +241,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         UserDTO dto = new UserDTO();
         dto.setUserId(id);
         List<UserDTO> userOrgList = userMapper.selectUserOrgList(dto);
-        if(userOrgList.size() == 0){
-            log.info("查询用户信息为空。");
-            return ReturnUtil.fail(ResultCodeEnum.USER_SELECT_IS_NULL);
-        }
-        //返回第一条数据
-        return ReturnUtil.success(userOrgList.get(0));
+        return ReturnUtil.success(userOrgList);
     }
 
     /**
@@ -305,6 +312,32 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         if(i == 0){
             log.info("解除角色与用户绑定，业务失败");
             return ReturnUtil.fail(ResultCodeEnum.BUSINESS_INSERT_FAILED);
+        }
+        return ReturnUtil.success();
+    }
+
+    @Override
+    public Object updateUserPassword(Integer userId, String oldPassword, String newPassword) {
+        UserEntity one = userMapper.selectById(userId);
+        if(one == null){
+            log.info("该用户编号无效");
+            return ReturnUtil.fail(ResultCodeEnum.USER_SELECT_IS_NULL);
+        }
+        String passWord = one.getPassWord();
+        Boolean aBoolean = JbcryptUtil.checkPassword(oldPassword, passWord);
+        if(!aBoolean){
+            log.info("该用户密码不正确");
+            return ReturnUtil.fail(ResultCodeEnum.USER_PASSWORD_IS_ERROR);
+        }
+        //开始更新密码
+        String newHashPassword = JbcryptUtil.hashPasswrod(newPassword);
+        UserEntity userEntity = new UserEntity();
+        userEntity.setPassWord(newHashPassword);
+        userEntity.setUserId(userId);
+        int update = userMapper.updateById(userEntity);
+        if(update == 0){
+            log.info("该用户密码更新失败，请查询日志");
+            return ReturnUtil.fail(ResultCodeEnum.BUSINESS_UPDATE_FAILED);
         }
         return ReturnUtil.success();
     }

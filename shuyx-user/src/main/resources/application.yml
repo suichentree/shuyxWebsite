@@ -17,6 +17,8 @@ spring:
     host: localhost
     port: 36379
     password: 123456
+  jackson:
+    time-zone: GMT+8
 
 # mybatis-plus
 mybatis-plus:
