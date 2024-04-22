@@ -7,7 +7,6 @@ import com.shuyx.shuyxcommons.utils.ResultCodeEnum;
 import com.shuyx.shuyxcommons.utils.ReturnUtil;
 import com.shuyx.shuyxuser.dto.DictDTO;
 import com.shuyx.shuyxuser.entity.DictEntity;
-import com.shuyx.shuyxuser.entity.PositionEntity;
 import com.shuyx.shuyxuser.mapper.DictMapper;
 import com.shuyx.shuyxuser.service.DictService;
 import lombok.extern.slf4j.Slf4j;

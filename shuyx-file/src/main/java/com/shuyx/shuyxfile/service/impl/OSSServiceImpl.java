@@ -1,24 +1,19 @@
-package com.shuyx.shuyxminio.service.impl;
+package com.shuyx.shuyxfile.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.shuyx.shuyxcommons.utils.ResultCodeEnum;
 import com.shuyx.shuyxcommons.utils.ReturnUtil;
-import com.shuyx.shuyxminio.service.OSSService;
-import com.shuyx.shuyxminio.utils.MinioUtils;
-import com.shuyx.shuyxminio.utils.MyMinioClient;
+import com.shuyx.shuyxfile.service.OSSService;
+import com.shuyx.shuyxfile.utils.MinioUtils;
+import com.shuyx.shuyxfile.utils.MyMinioClient;
 import io.minio.ListPartsResponse;
-import io.minio.ObjectWriteResponse;
 import io.minio.RemoveObjectArgs;
-import io.minio.errors.*;
 import io.minio.messages.Part;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 /**

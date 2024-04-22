@@ -18,6 +18,8 @@ public class RoleEntity implements Serializable {
     private Integer roleId;                 //角色id
     @TableField("parent_id")
     private Integer parentId;               //上级角色id
+    @TableField("role_code")
+    private String roleCode;                //角色编码
     @TableField("role_name")
     private String roleName;                //角色名称
     private String status;                 //状态（0正常1禁用）

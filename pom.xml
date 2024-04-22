@@ -17,7 +17,7 @@
         <module>shuyx-user</module>
         <module>shuyx-media</module>
         <module>shuyx-commons</module>
-        <module>shuyx-minio</module>
+        <module>shuyx-file</module>
         <module>shuyx-blog</module>
         <module>shuyx-xxljob</module>
     </modules>

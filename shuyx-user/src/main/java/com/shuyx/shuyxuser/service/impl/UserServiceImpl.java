@@ -189,6 +189,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         userEntity.setCreateTime(new Date());
         userEntity.setUpdateTime(new Date());
         userEntity.setStatus("0");
+        //密码加密
+        String passWord = userEntity.getPassWord();
+        if(StringUtils.isNotBlank(passWord)){
+            String s = JbcryptUtil.hashPasswrod(passWord);
+            userEntity.setPassWord(s);
+        }
         int insert = userMapper.insert(userEntity);
         if(insert == 0){
             log.info("用户添加失败,未知错误。");

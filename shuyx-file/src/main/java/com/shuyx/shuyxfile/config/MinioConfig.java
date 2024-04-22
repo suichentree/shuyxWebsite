@@ -1,6 +1,6 @@
-package com.shuyx.shuyxminio.config;
+package com.shuyx.shuyxfile.config;
 
-import com.shuyx.shuyxminio.utils.MyMinioClient;
+import com.shuyx.shuyxfile.utils.MyMinioClient;
 import io.minio.MinioClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

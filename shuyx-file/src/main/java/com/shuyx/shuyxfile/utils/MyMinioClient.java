@@ -1,4 +1,4 @@
-package com.shuyx.shuyxminio.utils;
+package com.shuyx.shuyxfile.utils;
 
 import com.google.common.collect.Multimap;
 import io.minio.CreateMultipartUploadResponse;

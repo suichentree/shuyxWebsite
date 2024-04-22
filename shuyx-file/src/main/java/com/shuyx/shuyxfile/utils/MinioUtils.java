@@ -1,4 +1,4 @@
-package com.shuyx.shuyxminio.utils;
+package com.shuyx.shuyxfile.utils;
 
 import com.google.common.collect.Multimap;
 import com.shuyx.shuyxcommons.utils.ResultCodeEnum;
@@ -10,11 +10,9 @@ import io.minio.messages.*;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.InvalidKeyException;

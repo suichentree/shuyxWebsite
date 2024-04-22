@@ -1,4 +1,4 @@
-package com.shuyx.shuyxminio.service;
+package com.shuyx.shuyxfile.service;
 
 import io.minio.errors.*;
 import org.springframework.web.multipart.MultipartFile;

@@ -26,6 +26,6 @@ spring:
           predicates:
             - Path=/shuyx-media/**
         - id: shuyx-minio
-          uri: lb://shuyx-minio
+          uri: lb://shuyx-file
           predicates:
-              - Path=/shuyx-minio/**
+              - Path=/shuyx-file/**

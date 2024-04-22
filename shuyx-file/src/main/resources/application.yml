@@ -1,0 +1,33 @@
+server:
+  port: 38090
+spring:
+  application:
+    name: shuyx-file
+  servlet:
+    multipart:
+      max-file-size: 10GB
+      max-request-size: 10GB
+  ## 数据库配置
+  datasource:
+    url: jdbc:mysql://localhost:33306/shuyx_db?useSSL=true&serverTimezone=GMT%2B8 # serverTimezone=GMT%2B8 东八区时间
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+
+# minio配置
+minio:
+  url: http://127.0.0.1:39000   #minio服务端地址。注意不要填为minio客户端地址
+  accessKey: ymhTRVurqX2yqjJk8htn  # 凭证
+  secretKey: 8IJbGdsfsStxNIKmLiOMraqThS8Yp6NyoZdoH2wk # 凭证密码
+
+# mybatis-plus
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # mybatis-plus开启sql日志
+  mapper-locations: classpath:mapper/*.xml                # mybatis的手写 sql xml文件的位置。即resources目录中
+
+# PageHelper分页插件配置，这个在使用mybatis进行分页时用到
+pagehelper:
+  helperDialect: mysql
+  supportMethodsArguments: true
+  params: count=countSql
